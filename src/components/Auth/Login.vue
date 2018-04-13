@@ -1,12 +1,9 @@
 <template>
     <div>
 
-        <div id="fake-nav"> 
-            <a href="#register" v-on:click="open('register', $event)">Register</a>
-            <a href="#login" v-on:click="open('login', $event)">Login</a>
-        </div>
 
-        <div class="user-modal-container" id="login-modal" v-on:click="close">
+
+        <div class="user-modal-container active" id="login-modal">
             <div class="user-modal">
 
                 <ul class="form-switcher">
@@ -14,7 +11,7 @@
                         <a href="" id="register-form">Register</a>
                     </li>
                     <li v-on:click="flip('login', $event)">
-                        <a href="" id="login-form">Login</a>
+                        <a class="active" href="" id="login-form">Login</a>
                     </li>
                 </ul>
 
@@ -30,7 +27,7 @@
                     </div>
                 </div>
 
-                <div class="form-login" id="form-login">
+                <div class="form-login active" id="form-login">
                     <div class="error-message" v-text="loginError"></div>
                     <input type="text" name="user" placeholder="Email" v-model="login.email" v-on:keyup.enter="submit('login', $event)">
                     <input type="password" name="password" placeholder="Password" v-model="login.password" v-on:keyup.enter="submit('login', $event)">
@@ -59,7 +56,7 @@
         name: 'Login',
         data () {
             return {
-                active: null,
+                active: 'login',
                 registerSubmit: 'Register',
                 passwordSubmit: 'Reset Password',
                 loginSubmit: 'Login',
@@ -82,24 +79,6 @@
             }
         },
         methods: {
-            open: function(which, e) {
-                e.preventDefault();
-                if (this.active !== null) {
-                    document.getElementById('form-' + this.active).classList.remove('active');
-                    document.getElementById(this.active + '-form').classList.remove('active');
-                }
-                document.getElementById("login-modal").classList.add('active');
-                document.getElementById("form-" + which).classList.add('active');
-                document.getElementById(which + '-form').classList.add('active');
-                this.active = which;
-            },
-
-            close: function(e) {
-                e.preventDefault();
-                if (e.target === document.getElementById("login-modal")) {
-                    document.getElementById("login-modal").classList.remove('active');
-                }
-            },
             flip: function (which, e) {
                 e.preventDefault();
                 if (which !== this.active) {
@@ -139,7 +118,7 @@
                   }
                 }).then((response) => {
                     window.localStorage.setItem('token', response.data.data.token)
-                    this.$router.push({name: 'example'})
+                    this.$router.push({name: 'admin'})
                 }).catch((errors) => {
                     document.getElementById(which + 'Submit').classList.remove('disabled');
                     this.loginError = "You have entered an invalid email or password"
@@ -149,7 +128,7 @@
                 this.register.email = this.register.email.toLowerCase()
                 this.$http.post(API_URL + '/v1/auth/user', this.register).then((response) => {
                     window.localStorage.setItem('token', response.data.data.token)
-                    this.$router.push({name: 'example'})
+                    this.$router.push({name: 'admin'})
                 }).catch((errors) => {
                     document.getElementById(which + 'Submit').classList.remove('disabled');
                     this.registerError = "The email address you have entered is already registered"
@@ -175,7 +154,6 @@
         left: 0;
         opacity: 0;
         visibility: hidden;
-        cursor: pointer;
         overflow-y: auto;
         z-index: 3;
         font-family:'Lato', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
