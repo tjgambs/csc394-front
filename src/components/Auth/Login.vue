@@ -20,6 +20,13 @@
                     <input type="text" name="name" placeholder="First Name" v-model="register.firstName" v-on:keyup.enter="submit('register', $event)">
                     <input type="text" name="name" placeholder="Last Name" v-model="register.lastName" v-on:keyup.enter="submit('register', $event)">
                     <input type="email" name="email" placeholder="Email" v-model="register.email" v-on:keyup.enter="submit('register', $event)">
+                    <div class="select-style">
+                        <select>
+                            <option value="0" selected>Student</option>
+                            <option value="1">Faculty</option>
+                            <option value="2">Admin</option>
+                        </select>
+                    </div>
                     <input type="password" name="password" placeholder="Password" v-model="register.password" v-on:keyup.enter="submit('register', $event)">
                     <input type="submit" v-on:click="submit('register', $event)" v-model="registerSubmit" id="registerSubmit">
                     <div class="links"> 
@@ -236,5 +243,26 @@
     }
     .user-modal-container input[type="submit"].disabled {
         background-color: #98d6b7;
+    }
+    .select-style {
+        border: 1px solid #eeeeee;
+        width: 100%;
+        background: #fafafa url("data:image/png;base64,R0lGODlhDwAUAIABAAAAAP///yH5BAEAAAEALAAAAAAPABQAAAIXjI+py+0Po5wH2HsXzmw//lHiSJZmUAAAOw==") no-repeat 97% 50%;
+        margin-bottom: 10px;
+        background-color: white;
+        padding: 5px;
+    }
+    .select-style select {
+        color: #666666;
+        padding: 5px 8px;
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        background-image: none;
+        -webkit-appearance: none;
+    }
+    .select-style select:focus {
+        outline: none;
     }
 </style>
