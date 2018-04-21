@@ -1,8 +1,5 @@
 <template>
     <div>
-
-
-
         <div class="user-modal-container active" id="login-modal">
             <div class="user-modal">
 
@@ -57,9 +54,13 @@
 </template>
 
 <script>
+    
+    import store from '../../store'
+
     const API_URL = process.env.API_URL
 
     export default {
+        store,
         name: 'Login',
         data () {
             return {
@@ -125,6 +126,7 @@
                     Authorization: 'Basic ' + hash
                   }
                 }).then((response) => {
+                    store.commit('setUser', response.data.data);
                     window.localStorage.setItem('token', response.data.data.token)
                     this.$router.push({name: 'admin'})
                 }).catch((errors) => {
@@ -136,6 +138,7 @@
                 this.register.email = this.register.email.toLowerCase()
                 this.register.accountType = document.getElementById('accountType').selectedIndex;
                 this.$http.post(API_URL + '/v1/auth/user', this.register).then((response) => {
+                    store.commit('setUser', response.data.data);
                     window.localStorage.setItem('token', response.data.data.token)
                     this.$router.push({name: 'admin'})
                 }).catch((errors) => {
