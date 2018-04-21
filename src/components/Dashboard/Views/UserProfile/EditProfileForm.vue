@@ -5,10 +5,10 @@
       <div class="row">
         <div class="col-md-5">
           <fg-input type="text"
-                    label="Company"
+                    label="Account Type"
                     :disabled="true"
                     placeholder="Light dashboard"
-                    v-model="user.company">
+                    v-model="user.accountType">
           </fg-input>
         </div>
         <div class="col-md-3">
@@ -44,51 +44,6 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-12">
-          <fg-input type="text"
-                    label="Address"
-                    placeholder="Home Address"
-                    v-model="user.address">
-          </fg-input>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <fg-input type="text"
-                    label="City"
-                    placeholder="City"
-                    v-model="user.city">
-          </fg-input>
-        </div>
-        <div class="col-md-4">
-          <fg-input type="text"
-                    label="Country"
-                    placeholder="Country"
-                    v-model="user.country">
-          </fg-input>
-        </div>
-        <div class="col-md-4">
-          <fg-input type="number"
-                    label="Postal Code"
-                    placeholder="ZIP Code"
-                    v-model="user.postalCode">
-          </fg-input>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <label>About Me</label>
-            <textarea rows="5" class="form-control border-input"
-                      placeholder="Here can be your description"
-                      v-model="user.aboutMe">
-              </textarea>
-          </div>
-        </div>
-      </div>
       <div class="text-center">
         <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile">
           Update Profile
@@ -108,22 +63,19 @@
     data () {
       return {
         user: {
-          company: 'Light dashboard',
-          username: 'michael23',
-          email: '',
-          firstName: 'Mike',
-          lastName: 'Andrew',
-          address: 'Melbourne, Australia',
-          city: 'melbourne',
-          country: 'Australia',
-          postalCode: '',
-          aboutMe: `Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.`
+          accountType: JSON.parse(window.localStorage.getItem('user')).account_type,
+          username: JSON.parse(window.localStorage.getItem('user')).username,
+          email: JSON.parse(window.localStorage.getItem('user')).email,
+          firstName: JSON.parse(window.localStorage.getItem('user')).first_name,
+          lastName: JSON.parse(window.localStorage.getItem('user')).last_name
         }
       }
     },
     methods: {
       updateProfile () {
+        
         alert('Your data: ' + JSON.stringify(this.user))
+
       }
     }
   }

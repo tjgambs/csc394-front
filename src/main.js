@@ -7,10 +7,6 @@ import App from './App.vue'
 // Permissions
 import UserHasPermissions from './middleware/UserHasPermissions'
 
-// Vuex
-import Vuex from 'vuex'
-Vue.use(Vuex)
-
 // LightBootstrap plugin
 import LightBootstrap from './light-bootstrap-main'
 

@@ -13,21 +13,24 @@
 </template>
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
-  import store from '../../../../store'
+  import Identicon from 'identicon.js'
+
   export default {
-    store,
     components: {
       Card
     },
     computed: {
       completeName: function() {
-        return store.state.user.firstName + ' ' + store.state.user.lastName;
+        let user = JSON.parse(window.localStorage.getItem('user'));
+        return user.first_name + ' ' + user.last_name;
       },
       email: function() {
-        return store.state.user.email;
+        let user = JSON.parse(window.localStorage.getItem('user'));
+        return user.email;
       },
       avatarUrl: function() {
-        return "https://api.adorable.io/avatars/285/" + this.email + ".png";
+        var data = new Identicon(this.email + this.completeName).toString();
+        return 'data:image/png;base64,' + data;
       }
     }
   }
