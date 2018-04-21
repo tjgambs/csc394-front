@@ -21,7 +21,7 @@
                     <input type="text" name="name" placeholder="Last Name" v-model="register.lastName" v-on:keyup.enter="submit('register', $event)">
                     <input type="email" name="email" placeholder="Email" v-model="register.email" v-on:keyup.enter="submit('register', $event)">
                     <div class="select-style">
-                        <select>
+                        <select id="accountType">
                             <option value="0" selected>Student</option>
                             <option value="1">Faculty</option>
                             <option value="2">Admin</option>
@@ -72,6 +72,7 @@
                     lastName: '',
                     email: '',
                     password: '',
+                    accountType: ''
                 },
                 login: {
                     email: '',
@@ -133,6 +134,7 @@
             },
             registerUser (which) {
                 this.register.email = this.register.email.toLowerCase()
+                this.register.accountType = document.getElementById('accountType').selectedIndex;
                 this.$http.post(API_URL + '/v1/auth/user', this.register).then((response) => {
                     window.localStorage.setItem('token', response.data.data.token)
                     this.$router.push({name: 'admin'})
