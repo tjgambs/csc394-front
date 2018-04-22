@@ -11,13 +11,7 @@
                     v-model="user.accountType">
           </fg-input>
         </div>
-        <div class="col-md-3">
-          <fg-input type="text"
-                    label="Username"
-                    placeholder="Username"
-                    v-model="user.username">
-          </fg-input>
-        </div>
+
         <div class="col-md-4">
           <fg-input type="email"
                     label="Email"
@@ -45,6 +39,7 @@
       </div>
 
       <div class="text-center">
+        {{ errorMessage }}
         <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile">
           Update Profile
         </button>
@@ -56,15 +51,17 @@
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
 
+  const API_URL = process.env.API_URL
+
   export default {
     components: {
       Card
     },
     data () {
       return {
+        errorMessage: '',
         user: {
           accountType: JSON.parse(window.localStorage.getItem('user')).account_type,
-          username: JSON.parse(window.localStorage.getItem('user')).username,
           email: JSON.parse(window.localStorage.getItem('user')).email,
           firstName: JSON.parse(window.localStorage.getItem('user')).first_name,
           lastName: JSON.parse(window.localStorage.getItem('user')).last_name
@@ -73,9 +70,22 @@
     },
     methods: {
       updateProfile () {
-        
-        alert('Your data: ' + JSON.stringify(this.user))
-
+        this.errorMessage = '';
+        let token = window.localStorage.getItem('token')
+        this.$http.post(API_URL + '/v1/auth/update_user', this.user, {
+          headers: {
+            Authorization: 'Token ' + token
+          }
+        }).then((response) => {
+            window.localStorage.setItem('user', JSON.stringify(response.data.data));
+            this.errorMessage = 'Success!';
+            var _this = this;
+            setTimeout(function(){ 
+              _this.errorMessage = '';
+            }, 2000);
+        }).catch((errors) => {
+            this.errorMessage = 'The email address you have entered is already registered';
+        })
       }
     }
   }

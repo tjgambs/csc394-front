@@ -12,7 +12,6 @@ Vue.http.interceptors.push((request, next) => {
      * Here we will fetch the token from local storage and 
      * attach it (if exists) to the Authorization header on EVERY request.
      */
-
     let token = window.localStorage.getItem('token')
     if (token) {
         request.headers = request.headers || {}
