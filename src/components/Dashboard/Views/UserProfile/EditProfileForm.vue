@@ -12,7 +12,7 @@
           </fg-input>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-7">
           <fg-input type="email"
                     label="Email"
                     placeholder="Email"

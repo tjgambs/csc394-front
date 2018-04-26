@@ -25,7 +25,8 @@
                         </select>
                     </div>
                     <input type="password" name="password" placeholder="Password" v-model="register.password" v-on:keyup.enter="submit('register', $event)">
-                    <input type="submit" v-on:click="submit('register', $event)" v-model="registerSubmit" id="registerSubmit">
+                    <input type="password" name="password" placeholder="Confirm Password" v-model="register.confirmPassword" v-on:keyup.enter="submit('register', $event)">
+					<input type="submit" v-on:click="submit('register', $event)" v-model="registerSubmit" id="registerSubmit">
                     <div class="links"> 
                         <a href="" v-on:click="flip('login', $event)">Already have an account?</a>
                     </div>
@@ -46,7 +47,6 @@
                     <input type="text" name="email" placeholder="Email" v-model="resetPassword.email" v-on:keyup.enter="submit('password', $event)">
                     <input type="submit" v-on:click="submit('password', $event)" v-model="passwordSubmit" id="passwordSubmit">
                 </div>
-
             </div>
         </div>
 
@@ -70,6 +70,7 @@
                     lastName: '',
                     email: '',
                     password: '',
+					confirmPassword: '',
                     accountType: ''
                 },
                 login: {
@@ -134,14 +135,19 @@
             registerUser (which) {
                 this.register.email = this.register.email.toLowerCase()
                 this.register.accountType = document.getElementById('accountType').selectedIndex;
-                this.$http.post(API_URL + '/v1/auth/user', this.register).then((response) => {
-                    window.localStorage.setItem('user', JSON.stringify(response.data.data));
-                    window.localStorage.setItem('token', response.data.data.token)
-                    this.$router.push({name: 'admin'})
-                }).catch((errors) => {
-                    document.getElementById(which + 'Submit').classList.remove('disabled');
-                    this.registerError = "The email address you have entered is already registered"
-                })
+                if (this.register.password != this.register.confirmPassword) {
+					this.registerError = "Password and Confirm Password are not the same"
+				}
+				else {
+					this.$http.post(API_URL + '/v1/auth/user', this.register).then((response) => {
+						window.localStorage.setItem('user', JSON.stringify(response.data.data));
+						window.localStorage.setItem('token', response.data.data.token)
+						this.$router.push({name: 'admin'})
+					}).catch((errors) => {
+						document.getElementById(which + 'Submit').classList.remove('disabled');
+						this.registerError = "The email address you have entered is already registered"
+					})
+				}
             },
             resetPasswordUser (which) {
                 document.getElementById(which + 'Submit').classList.remove('disabled');
