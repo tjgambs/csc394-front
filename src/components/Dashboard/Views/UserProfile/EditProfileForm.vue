@@ -8,7 +8,7 @@
                     label="Account Type"
                     :disabled="true"
                     placeholder="Light dashboard"
-                    v-model="user.accountType">
+                    v-model="user.account_type">
           </fg-input>
         </div>
 
@@ -26,14 +26,14 @@
           <fg-input type="text"
                     label="First Name"
                     placeholder="First Name"
-                    v-model="user.firstName">
+                    v-model="user.first_name">
           </fg-input>
         </div>
         <div class="col-md-6">
           <fg-input type="text"
                     label="Last Name"
                     placeholder="Last Name"
-                    v-model="user.lastName">
+                    v-model="user.last_name">
           </fg-input>
         </div>
       </div>
@@ -57,15 +57,10 @@
     components: {
       Card
     },
+    props: ['user'],
     data () {
       return {
-        errorMessage: '',
-        user: {
-          accountType: JSON.parse(window.localStorage.getItem('user')).account_type,
-          email: JSON.parse(window.localStorage.getItem('user')).email,
-          firstName: JSON.parse(window.localStorage.getItem('user')).first_name,
-          lastName: JSON.parse(window.localStorage.getItem('user')).last_name
-        }
+        errorMessage: ''
       }
     },
     methods: {
@@ -77,7 +72,6 @@
             Authorization: 'Token ' + token
           }
         }).then((response) => {
-            window.localStorage.setItem('user', JSON.stringify(response.data.data));
             this.errorMessage = 'Success!';
             var _this = this;
             setTimeout(function(){ 

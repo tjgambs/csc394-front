@@ -3,11 +3,11 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-8">
-          <edit-profile-form>
+          <edit-profile-form v-bind:user="user">
           </edit-profile-form>
         </div>
         <div class="col-md-4">
-          <user-card>
+          <user-card v-bind:user="user">
           </user-card>
         </div>
       </div>
@@ -18,10 +18,32 @@
   import EditProfileForm from './UserProfile/EditProfileForm.vue'
   import UserCard from './UserProfile/UserCard.vue'
 
+  const API_URL = process.env.API_URL
+
   export default {
     components: {
       EditProfileForm,
       UserCard
+    },
+    data () {
+      return {
+        user: {
+          first_name: '',
+          last_name: '',
+          email: '',
+          account_type: ''
+        }
+      }
+    },
+    created: function () {
+      let token = window.localStorage.getItem('token');
+      this.$http.get(API_URL + '/v1/auth/user', {
+        headers: {
+          Authorization: 'Token ' + token
+        }
+      }).then((response) => {
+          this.user = response.data.data;
+      })
     }
   }
 

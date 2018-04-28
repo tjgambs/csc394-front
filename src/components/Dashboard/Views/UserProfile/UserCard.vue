@@ -13,24 +13,18 @@
 </template>
 <script>
   import Card from 'src/components/UIComponents/Cards/Card.vue'
-  import Identicon from 'identicon.js'
 
   export default {
     components: {
       Card
     },
+    props: ['user'],
     computed: {
       completeName: function() {
-        let user = JSON.parse(window.localStorage.getItem('user'));
-        return user.first_name + ' ' + user.last_name;
+        return this.user.first_name + ' ' + this.user.last_name;
       },
       email: function() {
-        let user = JSON.parse(window.localStorage.getItem('user'));
-        return user.email;
-      },
-      avatarUrl: function() {
-        var data = new Identicon(this.email + this.completeName).toString();
-        return 'data:image/png;base64,' + data;
+        return this.user.email;
       }
     }
   }
