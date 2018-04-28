@@ -3,7 +3,6 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-
           <div class="col-12">
             <card class="card-plain">
               <template slot="header">
@@ -16,11 +15,9 @@
               </div>
             </card>
           </div>
-
         </div>
       </div>
     </div>
-
   </card>
 </template>
 <script>

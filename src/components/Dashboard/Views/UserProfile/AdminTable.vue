@@ -1,46 +1,66 @@
 <template>
-  <table class="table">
-    <thead>
-      <tr>
-        <slot name="columns">
-          <th v-for="column in columns">{{column}}</th>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <slot name="columns">
+            <th v-for="column in columns">{{column}}</th>
+          </slot>
+        </tr>
+      </thead>
+      <tbody>
+      <tr v-for="user in rows">
+        <slot :row="user">
+          <td v-for="column in columns" v-if="hasValue(user, column)">{{itemValue(user, column)}}</td>
+          <td>
+            <button type="submit" class="btn btn-info btn-fill" @click.prevent="viewAccount(user)">
+            View
+            </button>
+          </td>
+          <td>
+            <button type="submit" class="btn btn-info btn-fill" @click.prevent="loginAs(user.token)">
+            Login
+            </button>
+          </td>
+          <td v-if="account_type == 'Admin'">
+            <button type="submit" class="btn btn-danger btn-fill" @click.prevent="deleteAccount(user.email)">
+            Delete
+            </button>
+          </td>
         </slot>
       </tr>
-    </thead>
-    <tbody>
-    <tr v-for="item in rows">
-      <slot :row="item">
-        <td v-for="column in columns" v-if="hasValue(item, column)">{{itemValue(item, column)}}</td>
-        <td>
-          <button type="submit" class="btn btn-info btn-fill" @click.prevent="viewAccount(item.id)">
-          View
-          </button>
-        </td>
-        <td>
-          <button type="submit" class="btn btn-info btn-fill" @click.prevent="loginAs(item.token)">
-          Login
-          </button>
-        </td>
-        <td v-if="account_type == 'Admin'">
-          <button type="submit" class="btn btn-info btn-fill" @click.prevent="deleteAccount(item.id)">
-          Delete
-          </button>
-        </td>
-      </slot>
-    </tr>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+
+    <modal v-if="showModal" @close="closeModal()">
+      <h3 slot="header">Account Information</h3>
+      <div slot="body"> 
+        <div v-for="(item, key) in selectedAccount">
+          <b>{{ key }}: </b>
+          {{ item }} 
+        </div>
+      </div>
+    </modal>
+
+  </div>
 </template>
 <script>
+
+  import Modal from 'src/components/UIComponents/Modal.vue'
   
   const API_URL = process.env.API_URL
 
   export default {
+    components: {
+      Modal
+    },
     props: ['account_type'],
     data () {
       return {
         columns: [],
-        rows: []
+        rows: [],
+        showModal: false,
+        selectedAccount: {}
       }
     },
     created: function () {
@@ -65,11 +85,29 @@
         window.localStorage.setItem('studentToken', token);
         this.$router.push({name: 'admin'});
       },
-      viewAccount(token) {
-        console.log(token)
+      viewAccount(user) {
+        this.selectedAccount = user;
+        this.showModal = true;
       },
-      deleteAccount(token) {
-        console.log(token)
+      closeModal() {
+        this.showModal = false;
+        this.selectedAccount = {};
+      },
+      deleteAccount(email) {
+        let token = window.localStorage.getItem('token')
+        this.$http.delete(API_URL + '/v1/admin/delete_account/' + email, {
+          headers: {
+            Authorization: 'Token ' + token
+          }
+        }).then((response) => {
+          let i;
+          for(i = 0; i < this.rows; i++) {
+            if (this.rows[i].email == email) {
+              break;
+            }
+          }
+          this.rows.splice(i, 1);
+        })
       }
     }
   }
