@@ -94,20 +94,16 @@
         this.selectedAccount = {};
       },
       deleteAccount(email) {
-        let token = window.localStorage.getItem('token')
-        this.$http.delete(API_URL + '/v1/admin/delete_account/' + email, {
-          headers: {
-            Authorization: 'Token ' + token
-          }
-        }).then((response) => {
-          let i;
-          for(i = 0; i < this.rows; i++) {
-            if (this.rows[i].email == email) {
-              break;
+        this.$http.delete(API_URL + '/v1/admin/delete_account/' + email)
+          .then((response) => {
+            let i;
+            for(i = 0; i < this.rows; i++) {
+              if (this.rows[i].email == email) {
+                break;
+              }
             }
-          }
-          this.rows.splice(i, 1);
-        })
+            this.rows.splice(i, 1);
+          })
       }
     }
   }

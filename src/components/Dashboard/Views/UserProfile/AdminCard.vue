@@ -7,7 +7,7 @@
             <card class="card-plain">
               <template slot="header">
                 <h4 class="card-title">Student Accounts</h4>
-                <p class="card-category">Login as a student or view their information.</p>
+                <p class="card-category">Login as another account and view their information.</p>
               </template>
               <div class="table-responsive">
                 <admin-table class="table-hover" v-bind:account_type="user.account_type">

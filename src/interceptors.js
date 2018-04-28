@@ -14,8 +14,10 @@ Vue.http.interceptors.push((request, next) => {
      */
     let token = window.localStorage.getItem('token')
     if (token) {
-        request.headers = request.headers || {}
-        request.headers.Authorization = `Token ${token}`
+        if (!request.headers.Authorization) {
+            request.headers.set('Authorization', `Token ${token}`);
+        }
+        request.headers.set('Accept', 'application/json')
     }
 
     next((response) => {

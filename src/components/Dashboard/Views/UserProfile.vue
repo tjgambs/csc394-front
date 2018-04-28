@@ -42,12 +42,8 @@
       }
     },
     created: function () {
-      let token = window.localStorage.getItem('token');
-      this.$http.get(API_URL + '/v1/auth/user', {
-        headers: {
-          Authorization: 'Token ' + token
-        }
-      }).then((response) => {
+      this.$http.get(API_URL + '/v1/auth/user')
+        .then((response) => {
           this.user = response.data.data;
       })
     }
