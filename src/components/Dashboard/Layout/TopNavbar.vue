@@ -68,6 +68,7 @@
       },
       logout () {
         window.localStorage.removeItem('token');
+        window.localStorage.removeItem('studentToken');
         this.$router.push({name: 'login'})
       },
       exitStudent() {

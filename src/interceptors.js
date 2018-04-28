@@ -13,9 +13,10 @@ Vue.http.interceptors.push((request, next) => {
      * attach it (if exists) to the Authorization header on EVERY request.
      */
     let token = window.localStorage.getItem('token')
+    let studentToken = window.localStorage.getItem('studentToken')
     if (token) {
         if (!request.headers.Authorization) {
-            request.headers.set('Authorization', `Token ${token}`);
+            request.headers.set('Authorization', `Token ${studentToken || token}`)
         }
         request.headers.set('Accept', 'application/json')
     }
