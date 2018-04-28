@@ -16,6 +16,11 @@
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
+            
+            <a v-if="isViewingAsStudent" v-on:click="exitStudent();" class="nav-link">
+              Exit Student
+            </a>
+
             <a v-on:click="logout();" class="nav-link">
               Log out
             </a>
@@ -35,10 +40,17 @@
     },
     data () {
       return {
-        activeNotifications: false
+        activeNotifications: false,
+        isViewingAsStudent: false
       }
     },
+    created: function () {
+      this.updateState();
+    },
     methods: {
+      updateState () {
+        this.isViewingAsStudent = Boolean(window.localStorage.getItem('studentToken'));
+      },
       capitalizeFirstLetter (string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
       },
@@ -55,8 +67,12 @@
         this.$sidebar.displaySidebar(false)
       },
       logout () {
-        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('token');
         this.$router.push({name: 'login'})
+      },
+      exitStudent() {
+        window.localStorage.removeItem('studentToken');
+        this.isViewingAsStudent = false;
       }
     }
   }

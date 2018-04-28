@@ -62,7 +62,8 @@
         return item[column]
       },
       loginAs(token) {
-        console.log(token)
+        window.localStorage.setItem('studentToken', token);
+        this.$router.push({name: 'admin'});
       },
       viewAccount(token) {
         console.log(token)
