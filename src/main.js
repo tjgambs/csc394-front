@@ -17,6 +17,9 @@ Vue.use(VueRouter)
 Vue.use(LightBootstrap)
 Vue.use(Resource)
 
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes

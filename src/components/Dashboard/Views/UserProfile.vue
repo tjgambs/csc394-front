@@ -22,10 +22,12 @@
   import EditProfileForm from './UserProfile/EditProfileForm.vue'
   import UserCard from './UserProfile/UserCard.vue'
   import AdminCard from './UserProfile/AdminCard.vue'
+  import store from 'src/store.js'
 
   const API_URL = process.env.API_URL
 
   export default {
+    store,
     components: {
       EditProfileForm,
       UserCard,
@@ -42,10 +44,18 @@
       }
     },
     created: function () {
-      this.$http.get(API_URL + '/v1/auth/user')
-        .then((response) => {
-          this.user = response.data.data;
+      this.updateUser();
+      this.$store.watch(this.$store.getters.getUpdateUser, n => {
+        this.updateUser();
       })
+    },
+    methods: {
+      updateUser: function() {
+        this.$http.get(API_URL + '/v1/auth/user')
+          .then((response) => {
+            this.user = response.data.data;
+        })
+      }
     }
   }
 

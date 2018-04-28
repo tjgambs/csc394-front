@@ -31,26 +31,26 @@
   </nav>
 </template>
 <script>
+  
+  import store from 'src/store.js'
+
   export default {
+    store,
     computed: {
       routeName () {
         const {name} = this.$route
         return this.capitalizeFirstLetter(name)
+      },
+      isViewingAsStudent () {
+        return this.$store.state.isViewingAsStudent;
       }
     },
     data () {
       return {
         activeNotifications: false,
-        isViewingAsStudent: false
       }
     },
-    created: function () {
-      this.updateState();
-    },
     methods: {
-      updateState () {
-        this.isViewingAsStudent = Boolean(window.localStorage.getItem('studentToken'));
-      },
       capitalizeFirstLetter (string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
       },
@@ -69,11 +69,13 @@
       logout () {
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('studentToken');
-        this.$router.push({name: 'login'})
+        this.$store.commit('exitStudentView');
+        this.$router.push({name: 'login'});
       },
       exitStudent() {
         window.localStorage.removeItem('studentToken');
-        this.isViewingAsStudent = false;
+        this.$store.commit('exitStudentView');
+        this.$store.commit('updateUser');
       }
     }
   }

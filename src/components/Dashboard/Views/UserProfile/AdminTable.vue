@@ -47,10 +47,12 @@
 <script>
 
   import Modal from 'src/components/UIComponents/Modal.vue'
+  import store from 'src/store.js'
   
   const API_URL = process.env.API_URL
 
   export default {
+    store,
     components: {
       Modal
     },
@@ -83,7 +85,8 @@
       },
       loginAs(token) {
         window.localStorage.setItem('studentToken', token);
-        this.$router.push({name: 'admin'});
+        this.$store.commit('enterStudentView');
+        this.$store.commit('updateUser')
       },
       viewAccount(user) {
         this.selectedAccount = user;

@@ -14,31 +14,29 @@
 </template>
 <script>
   import DropDown from 'src/components/UIComponents/Dropdown.vue'
+  import store from 'src/store.js'
 
   export default {
+    store,
     components: {
       DropDown
     },
-    data () {
-      return {
-        isViewingAsStudent: false
+    computed: {
+      isViewingAsStudent () {
+        return this.$store.state.isViewingAsStudent;
       }
     },
-    created: function () {
-      this.updateState();
-    },
     methods: {
-      updateState () {
-        this.isViewingAsStudent = Boolean(window.localStorage.getItem('studentToken'));
-      },
       logout () {
-        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('token');
         window.localStorage.removeItem('studentToken');
-        this.$router.push({name: 'login'})
+        this.$store.commit('exitStudentView');
+        this.$router.push({name: 'login'});
       },
       exitStudent() {
         window.localStorage.removeItem('studentToken');
-        this.isViewingAsStudent = false;
+        this.$store.commit('exitStudentView');
+        this.$store.commit('updateUser');
       }
     }
   }
