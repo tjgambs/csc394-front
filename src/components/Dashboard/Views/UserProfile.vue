@@ -10,6 +10,10 @@
           <user-card v-bind:user="user">
           </user-card>
         </div>
+        <div v-if="user.account_type == 'Admin' || user.account_type == 'Faculty'" class="col-md-8">
+          <admin-card v-bind:user="user">
+          </admin-card>
+        </div>
       </div>
     </div>
   </div>
@@ -17,13 +21,15 @@
 <script>
   import EditProfileForm from './UserProfile/EditProfileForm.vue'
   import UserCard from './UserProfile/UserCard.vue'
+  import AdminCard from './UserProfile/AdminCard.vue'
 
   const API_URL = process.env.API_URL
 
   export default {
     components: {
       EditProfileForm,
-      UserCard
+      UserCard,
+      AdminCard
     },
     data () {
       return {

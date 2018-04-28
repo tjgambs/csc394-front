@@ -11,7 +11,7 @@
             <div class="table-responsive">
               <l-table class="table-hover table-striped"
                        :columns="table1.columns"
-                       :data="table1.data">
+                       :rows="table1.rows">
               </l-table>
             </div>
           </card>
@@ -27,7 +27,7 @@
             <div class="table-responsive">
               <l-table class="table-hover"
                        :columns="table2.columns"
-                       :data="table2.data">
+                       :rows="table2.rows">
               </l-table>
             </div>
           </card>
@@ -85,11 +85,11 @@
       return {
         table1: {
           columns: [...tableColumns],
-          data: [...tableData]
+          rows: [...tableData]
         },
         table2: {
           columns: [...tableColumns],
-          data: [...tableData]
+          rows: [...tableData]
         }
       }
     }
