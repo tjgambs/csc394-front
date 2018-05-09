@@ -21,6 +21,7 @@
 <script>
   import EditProfileForm from './UserProfile/EditProfileForm.vue'
   import UserCard from './UserProfile/UserCard.vue'
+  import EditPreference from './UserProfile/EditPreference.vue'
   import AdminCard from './UserProfile/AdminCard.vue'
   import store from 'src/store.js'
 
