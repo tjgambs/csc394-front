@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-    <tr v-for="item in data">
+    <tr v-for="item in rows">
       <slot :row="item">
         <td v-for="column in columns" v-if="hasValue(item, column)">{{itemValue(item, column)}}</td>
       </slot>
@@ -21,7 +21,7 @@
     name: 'l-table',
     props: {
       columns: Array,
-      data: Array
+      rows: Array
     },
     methods: {
       hasValue (item, column) {

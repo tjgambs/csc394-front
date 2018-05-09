@@ -16,6 +16,11 @@
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
+            
+            <a v-if="isViewingAsStudent" v-on:click="exitStudent();" class="nav-link">
+              Exit Student
+            </a>
+
             <a v-on:click="logout();" class="nav-link">
               Log out
             </a>
@@ -26,16 +31,23 @@
   </nav>
 </template>
 <script>
+  
+  import store from 'src/store.js'
+
   export default {
+    store,
     computed: {
       routeName () {
         const {name} = this.$route
         return this.capitalizeFirstLetter(name)
+      },
+      isViewingAsStudent () {
+        return this.$store.state.isViewingAsStudent;
       }
     },
     data () {
       return {
-        activeNotifications: false
+        activeNotifications: false,
       }
     },
     methods: {
@@ -55,8 +67,15 @@
         this.$sidebar.displaySidebar(false)
       },
       logout () {
-        window.localStorage.removeItem('token')
-        this.$router.push({name: 'login'})
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('studentToken');
+        this.$store.commit('exitStudentView');
+        this.$router.push({name: 'login'});
+      },
+      exitStudent() {
+        window.localStorage.removeItem('studentToken');
+        this.$store.commit('exitStudentView');
+        this.$store.commit('updateUser');
       }
     }
   }

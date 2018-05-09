@@ -3,17 +3,17 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-8">
-          <edit-profile-form>
+          <edit-profile-form v-bind:user="user">
           </edit-profile-form>
         </div>
         <div class="col-md-4">
-          <user-card>
+          <user-card v-bind:user="user">
           </user-card>
         </div>
-		<div class="col-md-12">
-		  <edit-preference>
-		  </edit-preference>
-		</div>
+        <div v-if="user.account_type == 'Admin' || user.account_type == 'Faculty'" class="col-md-8">
+          <admin-card v-bind:user="user">
+          </admin-card>
+        </div>
       </div>
     </div>
   </div>
@@ -22,12 +22,41 @@
   import EditProfileForm from './UserProfile/EditProfileForm.vue'
   import UserCard from './UserProfile/UserCard.vue'
   import EditPreference from './UserProfile/EditPreference.vue'
+  import AdminCard from './UserProfile/AdminCard.vue'
+  import store from 'src/store.js'
+
+  const API_URL = process.env.API_URL
 
   export default {
+    store,
     components: {
       EditProfileForm,
       UserCard,
-	  EditPreference
+      AdminCard
+    },
+    data () {
+      return {
+        user: {
+          first_name: '',
+          last_name: '',
+          email: '',
+          account_type: ''
+        }
+      }
+    },
+    created: function () {
+      this.updateUser();
+      this.$store.watch(this.$store.getters.getUpdateUser, n => {
+        this.updateUser();
+      })
+    },
+    methods: {
+      updateUser: function() {
+        this.$http.get(API_URL + '/v1/auth/user')
+          .then((response) => {
+            this.user = response.data.data;
+        })
+      }
     }
   }
 

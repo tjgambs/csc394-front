@@ -124,7 +124,6 @@
                     Authorization: 'Basic ' + hash
                   }
                 }).then((response) => {
-                    window.localStorage.setItem('user', JSON.stringify(response.data.data));
                     window.localStorage.setItem('token', response.data.data.token)
                     this.$router.push({name: 'admin'})
                 }).catch((errors) => {

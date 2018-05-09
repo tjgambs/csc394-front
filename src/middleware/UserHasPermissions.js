@@ -13,11 +13,8 @@ export default function UserHasPermissions(router) {
     router.beforeEach((to, from, next) => {
         if (to.meta.requiresLogin) {
             let token = window.localStorage.getItem('token')
-            Vue.http.get(API_URL + '/v1/auth/user/verify', {
-                headers: {
-                    Authorization: 'Token ' + token
-                }
-            }).then((response) => {
+            Vue.http.get(API_URL + '/v1/auth/user/verify')
+            .then((response) => {
                 return next()
             }).catch((errors) => {
                 return next({

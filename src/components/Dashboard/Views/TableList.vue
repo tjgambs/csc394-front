@@ -26,7 +26,7 @@
             <div class="table-responsive">
               <l-table class="table-hover table-striped"
                        :columns="table1.columns"
-                       :data="table1.data">
+                       :rows="table1.rows">
               </l-table>
             </div>
           </card>
@@ -41,13 +41,31 @@
             <div class="table-responsive">
               <l-table class="table-hover"
                        :columns="table2.columns"
-                       :data="table2.data">
+                       :rows="table2.rows">
               </l-table>
             </div>
           </card>
         </div>
-
+		
       </div>
+	  
+	  <div class="row">
+		<div class="col-12">
+		  <card>
+		    <template slot="header">
+			  <h4 class="card-title">Class Schedule Per Quarter</h4>
+			  <p class="card-category">Subtitle</p>
+			</template>
+			<div class="table-responsive">
+			  <l-table class="table-hover"
+					   :columns="table3.columns"
+					   :rows="table3.rows">
+			  </l-table>
+			</div>
+		  </card>
+		</div>
+	  </div>
+	  
     </div>
   </div>
 </template>
@@ -88,6 +106,31 @@
     country: '',
     city: ''
   }]
+  const classScheduleColumns = ['Quarter', 'M', 'T', 'W', 'Th', 'F']
+  const classScheduleData = [{
+	quarter: 'Autumn Quarter 17-18',
+	m: '',
+	t: '',
+	w: '',
+	th: '',
+	f: ''
+  },
+  {
+	quarter: 'Winter Quarter 17-18',
+	m: '',
+	t: '',
+	w: '',
+	th: '',
+	f: ''
+  },
+  {
+	quarter: 'Spring Quarter 17-18',
+	m: '',
+	t: '',
+	w: '',
+	th: '',
+	f: ''
+  }]
   export default {
     components: {
       LTable,
@@ -97,12 +140,16 @@
       return {
         table1: {
           columns: [...tableColumns],
-          data: [...tableData]
+          rows: [...tableData]
         },
         table2: {
           columns: [...tableColumns],
-          data: [...tableData]
-        }
+          rows: [...tableData]
+        },
+		table3: {
+		  columns: [...classScheduleColumns],
+		  rows: [...classScheduleData]
+		}
       }
     }
   }

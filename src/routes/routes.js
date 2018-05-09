@@ -6,10 +6,6 @@ import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 import Overview from 'src/components/Dashboard/Views/Overview.vue'
 import UserProfile from 'src/components/Dashboard/Views/UserProfile.vue'
 import TableList from 'src/components/Dashboard/Views/TableList.vue'
-import Typography from 'src/components/Dashboard/Views/Typography.vue'
-import Icons from 'src/components/Dashboard/Views/Icons.vue'
-import Maps from 'src/components/Dashboard/Views/Maps.vue'
-import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
 
 //Auth
 import Login from '@/components/Auth/Login'
@@ -55,38 +51,6 @@ const routes = [
         path: 'table-list',
         name: 'Table List',
         component: TableList,
-        meta: {
-          requiresLogin: true,
-        }
-      },
-      {
-        path: 'typography',
-        name: 'Typography',
-        component: Typography,
-        meta: {
-          requiresLogin: true,
-        }
-      },
-      {
-        path: 'icons',
-        name: 'Icons',
-        component: Icons,
-        meta: {
-          requiresLogin: true,
-        }
-      },
-      {
-        path: 'maps',
-        name: 'Maps',
-        component: Maps,
-        meta: {
-          requiresLogin: true,
-        }
-      },
-      {
-        path: 'notifications',
-        name: 'Notifications',
-        component: Notifications,
         meta: {
           requiresLogin: true,
         }
