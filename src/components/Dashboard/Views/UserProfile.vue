@@ -40,7 +40,13 @@
           first_name: '',
           last_name: '',
           email: '',
-          account_type: ''
+          account_type: '',
+          undergraduate_degree: '',
+          graduate_degree: '',
+          graduate_degree_concentration: '',
+          number_credit_hours: '',
+          elective: '',
+          automation: ''
         }
       }
     },
