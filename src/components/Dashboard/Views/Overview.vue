@@ -136,6 +136,7 @@
             <template slot="header">
               <h5 class="title">Tasks</h5>
               <p class="category">Backend development</p>
+			  <p class="category">Set up profile</p>
             </template>
             <l-table :data="tableData.data"
                      :columns="tableData.columns">
