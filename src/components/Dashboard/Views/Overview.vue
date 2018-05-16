@@ -11,9 +11,6 @@
               <p class="card-category">Quarters Completed</p>
               <h4 class="card-title">4</h4>
             </div>
-            <div slot="footer">
-              <i class="fa fa-refresh"></i>Updated now
-            </div>
           </stats-card>
         </div>
 
@@ -25,9 +22,6 @@
             <div slot="content">
               <p class="card-category">Quarters To Complete</p>
               <h4 class="card-title">6</h4>
-            </div>
-            <div slot="footer">
-              <i class="fa fa-refresh"></i>Updated now
             </div>
           </stats-card>
         </div>
@@ -41,9 +35,6 @@
               <p class="card-category">Fastest Route</p>
               <h4 class="card-title">7</h4>
             </div>
-            <div slot="footer">
-              <i class="fa fa-refresh"></i>Updated now
-            </div>
           </stats-card>
         </div>
 
@@ -55,9 +46,6 @@
             <div slot="content">
               <p class="card-category">Your Route</p>
               <h4 class="card-title">10</h4>
-            </div>
-            <div slot="footer">
-              <i class="fa fa-refresh"></i>Updated now
             </div>
           </stats-card>
         </div>
@@ -78,10 +66,6 @@
                 <i class="fa fa-circle text-danger"></i> Click
                 <i class="fa fa-circle text-warning"></i> Click Second Time
               </div>
-              <hr>
-              <div class="stats">
-                <i class="fa fa-history"></i> Updated 3 minutes ago
-              </div>
             </template>
           </chart-card>
         </div>
@@ -98,78 +82,10 @@
                 <i class="fa fa-circle text-danger"></i> Not Complete
                 <i class="fa fa-circle text-warning"></i> Currently Enrolled
               </div>
-              <hr>
-              <div class="stats">
-                <i class="fa fa-clock-o"></i> Class Statistics updated 2 days ago
-              </div>
             </template>
           </chart-card>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <chart-card
-            :chart-data="barChart.data"
-            :chart-options="barChart.options"
-            :chart-responsive-options="barChart.responsiveOptions"
-            chart-type="Bar">
-            <template slot="header">
-              <h4 class="card-title">2014 Sales</h4>
-              <p class="card-category">All products including Taxes</p>
-            </template>
-            <template slot="footer">
-              <div class="legend">
-                <i class="fa fa-circle text-info"></i> Tesla Model S
-                <i class="fa fa-circle text-danger"></i> BMW 5 Series
-              </div>
-              <hr>
-              <div class="stats">
-                <i class="fa fa-check"></i> Data information certified
-              </div>
-            </template>
-          </chart-card>
-        </div>
-
-        <div class="col-md-6">
-          <card>
-            <template slot="header">
-              <h5 class="title">Tasks</h5>
-              <p class="category">Backend development</p>
-			  <p class="category">Set up profile</p>
-            </template>
-            <l-table :data="tableData.data"
-                     :columns="tableData.columns">
-              <template slot="columns"></template>
-
-              <template slot-scope="{row}">
-                <td>
-                  <Checkbox v-model="row.checked"></Checkbox>
-                </td>
-                <td>{{row.title}}</td>
-                <td class="td-actions text-right">
-                  <button type="button" class="btn-simple btn btn-xs btn-info" v-tooltip.top-center="editTooltip">
-                    <i class="fa fa-edit"></i>
-                  </button>
-                  <button type="button" class="btn-simple btn btn-xs btn-danger" v-tooltip.top-center="deleteTooltip">
-                    <i class="fa fa-times"></i>
-                  </button>
-                </td>
-              </template>
-            </l-table>
-            <div class="footer">
-              <hr>
-              <div class="stats">
-                <i class="fa fa-history"></i> Updated 3 minutes ago
-              </div>
-            </div>
-          </card>
-
-        </div>
-      </div>
-	  
-	  
-	  
     </div>
   </div>
 </template>
