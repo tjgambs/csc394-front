@@ -53,33 +53,6 @@
 		  </fg-input>
 		</div>
 	  </div>
-	  
-	  <div class="row">
-        <div class="col-md-5">
-		  <p>Select Major</p>
-		  <select id="major">
-		    <option value="0"></option>
-			<option value="1">Computer Science</option>
-			<option value="2">Information Systems</option>
-		  </select>
-        </div>
-	  </div>
-	  
-	  <div class="row">
-        <div class="col-md-5">
-          <p></br>Select Concentration</p>
-            <select id="concentration">
-			  <option value="0"></option>
-			  <option value="1">Software Development</option>
-			  <option value="2">Game Systems</option>
-			  <option value="3">Business Analysis/System Analysis</option>
-			  <option value="4">Business Intelligence</option>
-			  <option value="5">Database Administration</option>
-			  <option value="6">IT Enterprise</option>
-			  <option value="7">Standard</option>
-			</select>
-        </div>
-      </div>
 
       <div class="row">
         <div class="col-md-4">
