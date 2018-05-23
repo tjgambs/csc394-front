@@ -3,20 +3,48 @@
 	<h2 slot="header" class="card-title">Search Courses</h2>
 	<form>
 	  <h4>Please fill in at least one optional search box.</h4>
+	  
+	  <p>Term & Year</p> 
+	  <div class="row">
+	    <div class="col-md-3">
+		  
+		  <select class="form-control">
+            <option value="0"></option>
+			<option value="1">Autumn 2017-18</option>
+			<option value="2">Winter 2017-18</option>
+			<option value="3">Spring 2017-18</option>
+			<option value="4">Summer 2017-18</option>
+          </select>
+		</div>
+	  </div>
+	  
 	  <p></br>Course Subject & Number</p>
 	  <div class="row">
 		<div class="col-md-2">
-		  <fg-input type="text"
-			label="Course Subject"
-			placeholder="(CSC, IS, etc.)"
-			>
-		  </fg-input>
+		<label class="control-label">
+          Course Subject
+        </label>
+		<select class="form-control">
+		  <option value="Empty"></option>
+		  <option value="1">CSC</option>
+		  <option value="2">HCI</option>
+		  <option value="3">IS</option>
+		</select>
+		<!--
+		  <label class="control-label">
+              Course Subject
+          </label>
+		  
+          <select v-model="search.course_subject" class="form-control">
+			<option value="Empty"></option>
+			<option v-for="item in options.course_subject" v-bind:value="item">{{item}}</option>
+		</select> -->
 		</div>
 		
 		<div class="col-md-2">
 		  <fg-input type="text"
 		    label="Course Number"
-			placeholder="(300, 301, etc.)"
+			placeholder=""
 			>
 		  </fg-input>
 		</div>
@@ -27,7 +55,7 @@
 	    <div class="col-md-5">
 		  <fg-input type="text"
 		    label="Course Title"
-			placeholder="(Data Structures, etc.)"
+			placeholder=""
 			>
 		  </fg-input>
 		</div>
@@ -55,94 +83,50 @@
 			>
 		  </fg-input>
 		</div>
-	  </div>
-	  
-	  <p>Term & Year</p> 
-	  <div class="row">
-	    <div class="col-md-3">
-		  <fg-input type="text"
-		    label="Term"
-			placeholder="(Autumn, Winter, Spring, Summer)"
-			>
-		  </fg-input>
-		</div>
-		<div class="col-md-3">
-		  <fg-input type="text"
-		    label="School Year"
-			placeholder="(2017, 2017-18, 17-18, etc.)"
-			>
-	      </fg-input>
-		</div>
-	  </div>
-		 
-	   
+	  </div>   
 		 
 	  <div class="text-center">
         {{ errorMessage }}
+		{{courseInfo}}
         <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="searchCourses">
           Search
         </button>
       </div>
       <div class="clearfix"></div>	 
-	  <p>When user clicks search, add a table underneath that shows likely results.
-	  If searching by term/year, limit to those classes.
-	  If searching by class name/number, limit to those classes.
-	  If searching by teacher, limit to that teacher.
-	  If searching by course title, allow key search (or limit to that class).</p>
+	  <!--
+	  <p>When user clicks search, add a table underneath that shows likely results.</p>
 	  <p>Add days of the week search. Add wishlist search. Allow user to 
 	  specify days for wishlist classes if they would like or have the class chosen for
 	  a random quarter. Click on course name in list to display description of class</p>
+	  <input type="checkbox" id="myCheck" onclick="testing()">
+	  -->
+	</form>
+	<form>
+	
 	</form>
   </card>
 </template>
 <script>
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
-  const tableColumns = ['Course', 'Title', 'Instructor', 'Term']
+  const tableColumns = ['Add', 'Course', 'Title', 'Instructor', 'Term']
   const tableData = [{
+    add: '',
     course: 'CSC 300',
     title: 'Data Structures I',
     instructor: 'Radha',
 	term: 'Winter 16-17'
   },
   {
+    add: '',
     course: 'aaa',
     title: 'bbb',
     instructor: 'ccc',
 	term: 'ddd'
-  },
-  {
-    course: 'CSC 300',
-    title: 'Data Structures I',
-    instructor: 'Radha',
-	term: 'Winter 16-17'
   }]
-  const classScheduleColumns = ['Quarter', 'M', 'T', 'W', 'Th', 'F']
-  const classScheduleData = [{
-	quarter: 'Autumn Quarter 17-18',
-	m: '',
-	t: '',
-	w: '',
-	th: '',
-	f: ''
-  },
-  {
-	quarter: 'Winter Quarter 17-18',
-	m: '',
-	t: '',
-	w: '',
-	th: '',
-	f: ''
-  },
-  {
-	quarter: 'Spring Quarter 17-18',
-	m: '',
-	t: '',
-	w: '',
-	th: '',
-	f: ''
-  }]
+  
   export default {
+	props: ['search'],
     components: {
       LTable,
       Card
@@ -161,26 +145,38 @@
 		  columns: [...classScheduleColumns],
 		  rows: [...classScheduleData]
 		},
-		errorMessage: ''
+		errorMessage: '',
+		options: {
+		  course_subject: ['CSC', 'HCI', 'IS']
+		},
+		courseInfo: ''
       }
-    },
+	},
 	methods: {
 	  searchCourses () {
-	    this.errorMessage = '';
-        let token = window.localStorage.getItem('token')
-        this.$http.post(API_URL + '/v1/auth/update_user', this.user, {
-          headers: {
-            Authorization: 'Token ' + token
-          }
-        }).then((response) => {
+	    this.errorMessage = 'e';
+		this.courseInfo = 'asdf';
+        this.$http.post(API_URL + '/v1/search/by_subject/csc/1010', this.user
+		).then((response) => {
             this.errorMessage = 'Searching...';
+			this.courseInfo = 'test';
             var _this = this;
             setTimeout(function(){ 
               _this.errorMessage = '';
             }, 2000);
         }).catch((errors) => {
-            this.errorMessage = 'No changes made';
+            this.errorMessage = 'Unable to search';
         })
+	  },
+	  testing () {
+		var checkBox = document.getElementById("myCheck");
+		var text = document.getElementById("text");
+		if (checkBox.checked == true) {
+			text.style.display = "block";
+		} else {
+			text.style.display = "none";
+		}
+		
 	  }
 	}
   }

@@ -85,7 +85,7 @@
             <select v-model="user.graduate_degree_concentration" class="form-control">
                 <option value="Empty"></option>
                 <option v-for="item in concentrations" v-bind:value="item">{{item}}</option>
-              </select>
+            </select>
           </div>
         </div>
       </div>
