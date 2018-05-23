@@ -36,8 +36,7 @@
                     v-model="user.last_name">
           </fg-input>
         </div>
-      </div>
-	  
+      </div>	  
 	  <div class="row">
 	    <div class="col-md-6">
 		  <fg-input type="text"
@@ -53,7 +52,6 @@
 		  </fg-input>
 		</div>
 	  </div>
-
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
