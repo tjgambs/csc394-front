@@ -36,8 +36,22 @@
                     v-model="user.last_name">
           </fg-input>
         </div>
-      </div>
-
+      </div>	  
+	  <div class="row">
+	    <div class="col-md-6">
+		  <fg-input type="text"
+					label="Change Password"
+					>
+		  </fg-input>
+		</div>
+		
+		<div class="col-md-6">
+		  <fg-input type="text"
+					label="Confirm Password"
+					>
+		  </fg-input>
+		</div>
+	  </div>
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
@@ -69,7 +83,7 @@
             <select v-model="user.graduate_degree_concentration" class="form-control">
                 <option value="Empty"></option>
                 <option v-for="item in concentrations" v-bind:value="item">{{item}}</option>
-              </select>
+            </select>
           </div>
         </div>
       </div>

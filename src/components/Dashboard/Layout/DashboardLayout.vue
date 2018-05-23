@@ -12,7 +12,7 @@
       </sidebar-link>
       <sidebar-link to="/admin/table-list">
         <i class="nc-icon nc-notes"></i>
-        <p>Table list</p>
+        <p>Search Courses</p>
       </sidebar-link>
     </side-bar>
     <div class="main-panel">
