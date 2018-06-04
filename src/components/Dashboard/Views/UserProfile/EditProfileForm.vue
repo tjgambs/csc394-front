@@ -37,21 +37,7 @@
           </fg-input>
         </div>
       </div>	  
-	  <div class="row">
-	    <div class="col-md-6">
-		  <fg-input type="text"
-					label="Change Password"
-					>
-		  </fg-input>
-		</div>
-		
-		<div class="col-md-6">
-		  <fg-input type="text"
-					label="Confirm Password"
-					>
-		  </fg-input>
-		</div>
-	  </div>
+	  
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
@@ -120,6 +106,28 @@
           </div>
         </div>
       </div>
+<hr>
+	
+      <h4 slot="header" class="card-title">Wish List</h4>
+
+      <div class="row">
+        <div class="col-md-12">
+          <label class="control-label">
+            Classes Currently Interested In
+          </label>
+          
+		  
+		  <card>
+		  <div class="table-responsive">
+			<l-table class="table-hover table-striped"
+				:columns="table1.columns"
+				:rows="table1.rows">
+			</l-table>
+		  </div>
+		  </card>
+		 
+        </div>
+      </div>
 
       <div class="text-center">
         {{ errorMessage }}
@@ -133,18 +141,35 @@
   </card>
 </template>
 <script>
-
+  import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
 
   const API_URL = process.env.API_URL
-
+  const tableColumns = ['Course', 'Title', 'Remove from Wish List']
+  const tableData = [{
+	course: 'CSC 352',
+	title: 'Database Programming',
+	'remove from wish list': 'Remove Button'
+  },
+  {
+	course: 'CSC 333',
+	title: 'Cryptology',
+	'remove from wish list': 'Remove Button'
+  }]
   export default {
     components: {
+	  LTable,
       Card
     },
     props: ['user'],
     data () {
       return {
+		columns: [],
+		rows: [],
+		table1: {
+			columns: [...tableColumns],
+			rows: [...tableData]
+		},
         errorMessage: '',
         options: {
           undergraduate_degree: ['Computer Science', 'Information Systems', 'Other'],
@@ -152,6 +177,17 @@
           credits: ['4', '8', '12', '16']
         }
       }
+    },
+	created: function () {
+      let token = window.localStorage.getItem('token');
+      this.$http.get(API_URL + '/v1/search/by_class/csc/333/1010', {
+        headers: {
+          Authorization: 'Token ' + token
+        }
+      }).then((response) => {
+        this.columns = ['first_name', 'last_name', 'email']
+        this.rows = response.data.data.rows;
+      })
     },
     computed: {
       concentrations: function() {

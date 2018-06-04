@@ -26,9 +26,20 @@
         </label>
 		<select class="form-control">
 		  <option value="Empty"></option>
-		  <option value="1">CSC</option>
-		  <option value="2">HCI</option>
-		  <option value="3">IS</option>
+		  <option value="1">CNS</option>
+		  <option value="2">CSC</option>
+		  <option value="3">ECT</option>
+		  <option value="4">GAM</option>
+		  <option value="5">GEO</option>
+		  <option value="6">GPH</option>
+		  <option value="7">HCI</option>
+		  <option value="8">HIT</option>
+		  <option value="9">IPD</option>
+		  <option value="10">IS</option>
+		  <option value="11">IT</option>
+		  <option value="12">PM</option>
+		  <option value="13">SE</option>
+		  <option value="14">TDC</option>
 		</select>
 		<!--
 		  <label class="control-label">
@@ -60,35 +71,11 @@
 		  </fg-input>
 		</div>
 	  </div>
-			
-	  <p>Teacher Name</p>
-	  <div class="row">
-	    <div class="col-md-2">
-	      <fg-input type="text"
-			label="First Name"
-			>
-		  </fg-input>
-		</div>
-			  
-		<div class="col-md-1">
-		  <fg-input type="text"
-			label="Middle Initial"
-			>
-		  </fg-input>
-		</div>
-		
-	    <div class="col-md-2">
-		  <fg-input type="text"
-			label="Last Name"
-			>
-		  </fg-input>
-		</div>
-	  </div>   
 		 
 	  <div class="text-center">
         {{ errorMessage }}
 		{{courseInfo}}
-        <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="searchCourses">
+        <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="searchCourses">
           Search
         </button>
       </div>
@@ -119,10 +106,10 @@
   },
   {
     add: '',
-    course: 'aaa',
-    title: 'bbb',
-    instructor: 'ccc',
-	term: 'ddd'
+    course: '',
+    title: '',
+    instructor: '',
+	term: ''
   }]
   
   export default {
