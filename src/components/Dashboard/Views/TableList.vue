@@ -41,15 +41,7 @@
 		  <option value="13">SE</option>
 		  <option value="14">TDC</option>
 		</select>
-		<!--
-		  <label class="control-label">
-              Course Subject
-          </label>
-		  
-          <select v-model="search.course_subject" class="form-control">
-			<option value="Empty"></option>
-			<option v-for="item in options.course_subject" v-bind:value="item">{{item}}</option>
-		</select> -->
+		
 		</div>
 		
 		<div class="col-md-2">
