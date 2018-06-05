@@ -1,20 +1,8 @@
 <template>
+ <div>
   <card>
 	<h2 slot="header" class="card-title">Search Courses</h2>
-	<form>
-	  <h4>Please fill in at least one optional search box.</h4>
-	  
-	  <p>Term & Year</p> 
-	  <div class="row">
-	    <div class="col-md-3">
-		
-		  <select v-model="selected_quarter" class="form-control">
-			<option value=""></option>
-			<option v-for="item in options.quarters" v-bind:value="item.stream">{{item.description}}</option>
-		  </select>
-	
-		</div>
-	  </div>
+	<form>  
 	  
 	  <p></br>Course Subject & Number</p>
 	  <div class="row">
@@ -37,8 +25,8 @@
 		  </fg-input>
 		</div>
 	  </div>
-	
-	 
+	</form>
+  
 	  <div class="text-center">
         {{ errorMessage }}
 		{{courseInfo}}
@@ -46,44 +34,26 @@
           Search
         </button>
       </div>
-      <div class="clearfix"></div>
-
-	  <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="addToWishList">
-        Add to Wish List
-      </button>
+      <div class="clearfix"></div>	  
+	</card>
+    <card v-if="results.length > 0">
+	  <h2>
+		Search Results
+	  </h2>
 	  
-	  <!--
-	  <table-list>
-	    <data-viewer v-if="viewing_data == True">
-	      <data-viewer v-for="item in data" v-bind:value="item">
-			{{item}}
-			<input type="checkbox" id="checkbox" v-model="checked">
-		  </data-viewer>
-		
-		  
-		  <div class="row">
-		    <div class="col-md-12">
-			  <label class="control-label">
-			    Search Results
-			  </label>
-			  <div class="table">
-			    <l-table class="table-hover table-striped"
-				  :columns="displayTable.columns"
-				  :rows="displayTable.rows">
-			    </l-table>
-			  </div>
-	        </div>
-		  </div>
-		  
-		
-	    </data-viewer>
-		<search v-else></search>
-		
-	  </table-list>
-	  -->
-	  
-	</form>
+	  <div v-for="item in results">
+        <div class="col-12">
+          <card>
+            <h3>{{ item.subject + ' ' + item.catalog_nbr + ' - ' + item.title }}</h3>
+            <p>{{ item.description }}</p>
+			<button type="submit" class="btn btn-info btn-fill float-right" v-on:click="addToWishList(item.subject, item.catalog_nbr, item.title)">
+			  Add to Wish List
+			</button>
+          </card>
+        </div>
+      </div>
   </card>
+ </div>
 </template>
 <script>
   import LTable from 'src/components/UIComponents/Table.vue'
@@ -105,7 +75,7 @@
     },
     data () {
       return {
-	    selected_quarter: '',
+		results: [],
 		course_subject: '',
 		course_number: '',
 		myToggle: 'blank',
@@ -160,18 +130,16 @@
 	},
 	computed: {
 	  setSearchURL: function () {
-	    if (this.selected_quarter == '') {
-			return;
-		}
+	    
 
 		if (this.course_subject != '' && this.course_number != '') {
-			return API_URL + '/v1/search/by_class/' + this.course_subject + '/' + this.course_number + '/' + this.selected_quarter;
+			return API_URL + '/v1/search/by_subject_number/' + this.course_subject + '/' + this.course_number;
 		} else if (this.course_subject != '' && this.course_number == '') {
-			return API_URL + '/v1/search/by_subject/' + this.course_subject + '/' + this.selected_quarter;
+			return API_URL + '/v1/search/by_subject/' + this.course_subject;
 		} else if (this.course_subject == '' && this.course_number != '') {
-			return API_URL + '/v1/search/by_number/' + this.course_number + '/' + this.selected_quarter;
+			return API_URL + '/v1/search/by_number/' + this.course_number;
 		} else if (this.course_subject == '' && this.course_number == '') {
-			return API_URL + '/v1/search/all_subjects/' + this.selected_quarter;
+			return API_URL + '/v1/search/all_subjects';
 		}
 		
 		return;
@@ -182,7 +150,7 @@
         this.errorMessage = '';
         this.$http.get(this.setSearchURL)
           .then((response) => {
-            this.errorMessage = response.data;
+            this.results = response.data.data.results;
         }).catch((errors) => {
             this.errorMessage = 'No data found';
         })
