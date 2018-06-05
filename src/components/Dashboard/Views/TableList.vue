@@ -1,70 +1,59 @@
 <template>
-  <div>
-    <card>
-		<h2 slot="header" class="card-title">Search Courses</h2>
-		<form>
-		  <h4>Please fill in at least one optional search box.</h4>
-		  
-		  <p>Term & Year</p> 
-		  <div class="row">
-		    <div class="col-md-3">
-			
-			  <select v-model="selected_quarter" class="form-control">
-				<option value=""></option>
-				<option v-for="item in options.quarters" v-bind:value="item.stream">{{item.description}}</option>
-			  </select>
+ <div>
+  <card>
+	<h2 slot="header" class="card-title">Search Courses</h2>
+	<form>  
+	  
+	  <p></br>Course Subject & Number</p>
+	  <div class="row">
+		<div class="col-md-2">
+			<label class="control-label">
+			  Course Subject
+			</label>
+			<select v-model="course_subject" class="form-control">
+			  <option value=""></option>
+			  <option v-for="item in options.course_subject" v-bind:value="item">{{item}}</option>
+			</select>
+		</div>
 		
-			</div>
-		  </div>
-		  
-		  <p></br>Course Subject & Number</p>
-		  <div class="row">
-			<div class="col-md-2">
-				<label class="control-label">
-				  Course Subject
-				</label>
-				<select v-model="course_subject" class="form-control">
-				  <option value=""></option>
-				  <option v-for="item in options.course_subject" v-bind:value="item">{{item}}</option>
-				</select>
-			</div>
-			
-			<div class="col-md-2">
-			  <fg-input type="text"
-			    label="Course Number"
-				placeholder=""
-				v-model="course_number"
-				>
-			  </fg-input>
-			</div>
-		  </div>
-		
-		 
-		  <div class="text-center">
-	        {{ errorMessage }}
-			{{courseInfo}}
-	        <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="searchCourses">
-	          Search
-	        </button>
-	      </div>
-	      <div class="clearfix"></div>
-
-		  <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="addToWishList">
-	        Add to Wish List
-	      </button>
-	    </form>
+		<div class="col-md-2">
+		  <fg-input type="text"
+		    label="Course Number"
+			placeholder=""
+			v-model="course_number"
+			>
+		  </fg-input>
+		</div>
+	  </div>
+	</form>
+  
+	  <div class="text-center">
+        {{ errorMessage }}
+		{{courseInfo}}
+        <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="searchCourses">
+          Search
+        </button>
+      </div>
+      <div class="clearfix"></div>	  
 	</card>
-
-    <div v-for="item in results">
-      	<div class="col-12">
-      		<card>
-	      	<h3>{{ item.subject + ' ' + item.catalog_nbr }}</h3>
-	      	<p>{{ item.description }}</p>
-	      	</card>
-	    </div>
-    </div>
-
-  </div>	
+    <card v-if="results.length > 0">
+	  <h2>
+		Search Results
+	  </h2>
+	  
+	  <div v-for="item in results">
+        <div class="col-12">
+          <card>
+            <h3>{{ item.subject + ' ' + item.catalog_nbr + ' - ' + item.title }}</h3>
+            <p>{{ item.description }}</p>
+			<button type="submit" class="btn btn-info btn-fill float-right" v-on:click="addToWishList(item.subject, item.catalog_nbr, item.title)">
+			  Add to Wish List
+			</button>
+          </card>
+        </div>
+      </div>
+  </card>
+ </div>
 </template>
 <script>
   import LTable from 'src/components/UIComponents/Table.vue'
@@ -86,8 +75,7 @@
     },
     data () {
       return {
-      	results: [],
-	    selected_quarter: '',
+		results: [],
 		course_subject: '',
 		course_number: '',
 		myToggle: 'blank',
@@ -142,18 +130,16 @@
 	},
 	computed: {
 	  setSearchURL: function () {
-	    if (this.selected_quarter == '') {
-			return;
-		}
+	    
 
 		if (this.course_subject != '' && this.course_number != '') {
-			return API_URL + '/v1/search/by_class/' + this.course_subject + '/' + this.course_number + '/' + this.selected_quarter;
+			return API_URL + '/v1/search/by_subject_number/' + this.course_subject + '/' + this.course_number;
 		} else if (this.course_subject != '' && this.course_number == '') {
-			return API_URL + '/v1/search/by_subject/' + this.course_subject + '/' + this.selected_quarter;
+			return API_URL + '/v1/search/by_subject/' + this.course_subject;
 		} else if (this.course_subject == '' && this.course_number != '') {
-			return API_URL + '/v1/search/by_number/' + this.course_number + '/' + this.selected_quarter;
+			return API_URL + '/v1/search/by_number/' + this.course_number;
 		} else if (this.course_subject == '' && this.course_number == '') {
-			return API_URL + '/v1/search/all_subjects/' + this.selected_quarter;
+			return API_URL + '/v1/search/all_subjects';
 		}
 		
 		return;
