@@ -33,6 +33,8 @@
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
 
+  const API_URL = process.env.API_URL
+
   export default {
     components: {
       LTable,
@@ -42,14 +44,14 @@
       return {
         columns: ['Term', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
         rows: [
-          ['Autumn 2018', '', 'CSC 421', 'CSC 435', 'CSC 447', ''],
-          ['Winter 2019', 'CSC 453', 'SE 450', '', '', ''],
-          ['Spring 2019', 'CSC 555', '', '', 'CSC 578', ''],
-          ['Autumn 2019', 'CSC 482', '', '', '', 'CSC 672'],
-          ['Winter 2020', '', 'CSC 587', 'CSC 577', '', ''],
-          ['Spring 2020', '', '', 'CSC 461', 'CSC 462', ''],
         ]
       }
+    },
+    created: function () {
+      this.$http.get(API_URL + '/v1/build/auto_schedule')
+      .then((response) => {
+        this.rows = response.data.data.results;
+      })
     }
   }
 </script>

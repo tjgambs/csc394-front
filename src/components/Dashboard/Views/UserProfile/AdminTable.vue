@@ -66,12 +66,8 @@
       }
     },
     created: function () {
-      let token = window.localStorage.getItem('token');
-      this.$http.get(API_URL + '/v1/admin/get_students', {
-        headers: {
-          Authorization: 'Token ' + token
-        }
-      }).then((response) => {
+      this.$http.get(API_URL + '/v1/admin/get_students')
+      .then((response) => {
         this.columns = ['first_name', 'last_name', 'email']
         this.rows = response.data.data.rows;
       })

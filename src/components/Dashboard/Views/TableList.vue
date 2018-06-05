@@ -1,89 +1,70 @@
 <template>
-  <card>
-	<h2 slot="header" class="card-title">Search Courses</h2>
-	<form>
-	  <h4>Please fill in at least one optional search box.</h4>
-	  
-	  <p>Term & Year</p> 
-	  <div class="row">
-	    <div class="col-md-3">
-		
-		  <select v-model="selected_quarter" class="form-control">
-			<option value=""></option>
-			<option v-for="item in options.quarters" v-bind:value="item.stream">{{item.description}}</option>
-		  </select>
-	
-		</div>
-	  </div>
-	  
-	  <p></br>Course Subject & Number</p>
-	  <div class="row">
-		<div class="col-md-2">
-			<label class="control-label">
-			  Course Subject
-			</label>
-			<select v-model="course_subject" class="form-control">
-			  <option value=""></option>
-			  <option v-for="item in options.course_subject" v-bind:value="item">{{item}}</option>
-			</select>
-		</div>
-		
-		<div class="col-md-2">
-		  <fg-input type="text"
-		    label="Course Number"
-			placeholder=""
-			v-model="course_number"
-			>
-		  </fg-input>
-		</div>
-	  </div>
-	
-	 
-	  <div class="text-center">
-        {{ errorMessage }}
-		{{courseInfo}}
-        <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="searchCourses">
-          Search
-        </button>
-      </div>
-      <div class="clearfix"></div>
-
-	  <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="addToWishList">
-        Add to Wish List
-      </button>
-	  
-	  <!--
-	  <table-list>
-	    <data-viewer v-if="viewing_data == True">
-	      <data-viewer v-for="item in data" v-bind:value="item">
-			{{item}}
-			<input type="checkbox" id="checkbox" v-model="checked">
-		  </data-viewer>
-		
+  <div>
+    <card>
+		<h2 slot="header" class="card-title">Search Courses</h2>
+		<form>
+		  <h4>Please fill in at least one optional search box.</h4>
 		  
+		  <p>Term & Year</p> 
 		  <div class="row">
-		    <div class="col-md-12">
-			  <label class="control-label">
-			    Search Results
-			  </label>
-			  <div class="table">
-			    <l-table class="table-hover table-striped"
-				  :columns="displayTable.columns"
-				  :rows="displayTable.rows">
-			    </l-table>
-			  </div>
-	        </div>
+		    <div class="col-md-3">
+			
+			  <select v-model="selected_quarter" class="form-control">
+				<option value=""></option>
+				<option v-for="item in options.quarters" v-bind:value="item.stream">{{item.description}}</option>
+			  </select>
+		
+			</div>
 		  </div>
 		  
+		  <p></br>Course Subject & Number</p>
+		  <div class="row">
+			<div class="col-md-2">
+				<label class="control-label">
+				  Course Subject
+				</label>
+				<select v-model="course_subject" class="form-control">
+				  <option value=""></option>
+				  <option v-for="item in options.course_subject" v-bind:value="item">{{item}}</option>
+				</select>
+			</div>
+			
+			<div class="col-md-2">
+			  <fg-input type="text"
+			    label="Course Number"
+				placeholder=""
+				v-model="course_number"
+				>
+			  </fg-input>
+			</div>
+		  </div>
 		
-	    </data-viewer>
-		<search v-else></search>
-		
-	  </table-list>
-	  -->
-	  
-	</form>
-  </card>
+		 
+		  <div class="text-center">
+	        {{ errorMessage }}
+			{{courseInfo}}
+	        <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="searchCourses">
+	          Search
+	        </button>
+	      </div>
+	      <div class="clearfix"></div>
+
+		  <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="addToWishList">
+	        Add to Wish List
+	      </button>
+	    </form>
+	</card>
+
+    <div v-for="item in results">
+      	<div class="col-12">
+      		<card>
+	      	<h3>{{ item.subject + ' ' + item.catalog_nbr }}</h3>
+	      	<p>{{ item.description }}</p>
+	      	</card>
+	    </div>
+    </div>
+
+  </div>	
 </template>
 <script>
   import LTable from 'src/components/UIComponents/Table.vue'
@@ -105,6 +86,7 @@
     },
     data () {
       return {
+      	results: [],
 	    selected_quarter: '',
 		course_subject: '',
 		course_number: '',
@@ -182,7 +164,7 @@
         this.errorMessage = '';
         this.$http.get(this.setSearchURL)
           .then((response) => {
-            this.errorMessage = response.data;
+            this.results = response.data.data.results;
         }).catch((errors) => {
             this.errorMessage = 'No data found';
         })
