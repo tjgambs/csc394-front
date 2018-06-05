@@ -7,71 +7,38 @@
 	  <p>Term & Year</p> 
 	  <div class="row">
 	    <div class="col-md-3">
-		  
-		  <select class="form-control">
-            <option value="0"></option>
-			<option value="1">Autumn 2017-18</option>
-			<option value="2">Winter 2017-18</option>
-			<option value="3">Spring 2017-18</option>
-			<option value="4">Summer 2017-18</option>
-          </select>
+		
+		  <select v-model="selected_quarter" class="form-control">
+			<option value="Empty"></option>
+			<option v-for="item in options.quarters" v-bind:value="item.stream">{{item.description}}</option>
+		  </select>
+	
 		</div>
 	  </div>
 	  
 	  <p></br>Course Subject & Number</p>
 	  <div class="row">
 		<div class="col-md-2">
-		<label class="control-label">
-          Course Subject
-        </label>
-		<select class="form-control">
-		  <option value="Empty"></option>
-		  <option value="1">CNS</option>
-		  <option value="2">CSC</option>
-		  <option value="3">ECT</option>
-		  <option value="4">GAM</option>
-		  <option value="5">GEO</option>
-		  <option value="6">GPH</option>
-		  <option value="7">HCI</option>
-		  <option value="8">HIT</option>
-		  <option value="9">IPD</option>
-		  <option value="10">IS</option>
-		  <option value="11">IT</option>
-		  <option value="12">PM</option>
-		  <option value="13">SE</option>
-		  <option value="14">TDC</option>
-		</select>
-		<!--
-		  <label class="control-label">
-              Course Subject
-          </label>
-		  
-          <select v-model="search.course_subject" class="form-control">
-			<option value="Empty"></option>
-			<option v-for="item in options.course_subject" v-bind:value="item">{{item}}</option>
-		</select> -->
+			<label class="control-label">
+			  Course Subject
+			</label>
+			<select v-model="course_subject" class="form-control">
+			  <option value="Empty"></option>
+			  <option v-for="item in options.course_subject" v-bind:value="item">{{item}}</option>
+			</select>
 		</div>
 		
 		<div class="col-md-2">
 		  <fg-input type="text"
 		    label="Course Number"
 			placeholder=""
+			v-model="course_number"
 			>
 		  </fg-input>
 		</div>
 	  </div>
-	  
-	  <p>Course Title</p>
-	  <div class="row">
-	    <div class="col-md-5">
-		  <fg-input type="text"
-		    label="Course Title"
-			placeholder=""
-			>
-		  </fg-input>
-		</div>
-	  </div>
-		 
+	
+	 
 	  <div class="text-center">
         {{ errorMessage }}
 		{{courseInfo}}
@@ -80,16 +47,7 @@
         </button>
       </div>
       <div class="clearfix"></div>	 
-	  <!--
-	  <p>When user clicks search, add a table underneath that shows likely results.</p>
-	  <p>Add days of the week search. Add wishlist search. Allow user to 
-	  specify days for wishlist classes if they would like or have the class chosen for
-	  a random quarter. Click on course name in list to display description of class</p>
-	  <input type="checkbox" id="myCheck" onclick="testing()">
-	  -->
-	</form>
-	<form>
-	
+	 	  
 	</form>
   </card>
 </template>
@@ -97,6 +55,7 @@
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   const tableColumns = ['Add', 'Course', 'Title', 'Instructor', 'Term']
+  const API_URL = process.env.API_URL
   const tableData = [{
     add: '',
     course: 'CSC 300',
@@ -120,6 +79,10 @@
     },
     data () {
       return {
+	    selected_quarter: '',
+		course_subject: '',
+		course_number: '',
+		myToggle: 'blank',
         table1: {
           columns: [...tableColumns],
           rows: [...tableData]
@@ -128,42 +91,79 @@
           columns: [...tableColumns],
           rows: [...tableData]
         },
-		table3: {
-		  columns: [...classScheduleColumns],
-		  rows: [...classScheduleData]
-		},
 		errorMessage: '',
 		options: {
-		  course_subject: ['CSC', 'HCI', 'IS']
+		  course_subject: ['CNS', 'CSC', 'ECT', 'GAM', 'GEO', 'GPH', 'HCI', 'HIT', 'IPD', 'IS', 'IT', 'PM', 'SE', 'TDC'],
+		  quarters: [
+			  {
+				"description": "2016-2017 Winter", 
+				"stream": "0980"
+			  }, 
+			  {
+				"description": "2016-2017 Spring", 
+				"stream": "0985"
+			  }, 
+			  {
+				"description": "2016-2017 Summer", 
+				"stream": "0990"
+			  }, 
+			  {
+				"description": "2017-2018 Autumn", 
+				"stream": "1000"
+			  }, 
+			  {
+				"description": "2017-2018 Winter", 
+				"stream": "1005"
+			  }, 
+			  {
+				"description": "2017-2018 Spring", 
+				"stream": "1010"
+			  }, 
+			  {
+				"description": "2017-2018 Summer", 
+				"stream": "1015"
+			  }, 
+			  {
+				"description": "2018-2019 Autumn", 
+				"stream": "1020"
+			  }, 
+			  {
+				"description": "2018-2019 Graduate DEC Session", 
+				"stream": "1024"
+			  }
+			]
 		},
 		courseInfo: ''
       }
 	},
-	methods: {
-	  searchCourses () {
-	    this.errorMessage = 'e';
-		this.courseInfo = 'asdf';
-        this.$http.post(API_URL + '/v1/search/by_subject/csc/1010', this.user
-		).then((response) => {
-            this.errorMessage = 'Searching...';
-			this.courseInfo = 'test';
-            var _this = this;
-            setTimeout(function(){ 
-              _this.errorMessage = '';
-            }, 2000);
-        }).catch((errors) => {
-            this.errorMessage = 'Unable to search';
-        })
-	  },
-	  testing () {
-		var checkBox = document.getElementById("myCheck");
-		var text = document.getElementById("text");
-		if (checkBox.checked == true) {
-			text.style.display = "block";
-		} else {
-			text.style.display = "none";
+	computed: {
+	  setSearchURL: function () {
+	    if (this.selected_quarter == '') {
+			return;
+		}
+
+		if (this.course_subject != '' && this.course_number != '') {
+			return API_URL + '/v1/search/by_class/' + this.course_subject + '/' + this.course_number + '/' + this.selected_quarter;
+		} else if (this.course_subject != '' && this.course_number == '') {
+			return API_URL + '/v1/search/by_subject/' + this.course_subject + '/' + this.selected_quarter;
+		} else if (this.course_subject == '' && this.course_number != '') {
+			return API_URL + '/v1/search/by_number/' + this.course_number + '/' + this.selected_quarter;
+		} else if (this.course_subject == '' && this.course_number == '') {
+			return API_URL + '/v1/search/all_subjects/' + this.selected_quarter;
 		}
 		
+		return;
+	  }
+	},
+	methods: {
+	  searchCourses () {
+        this.errorMessage = '';
+        this.$http.get(this.setSearchURL)
+          .then((response) => {
+            this.errorMessage = response.data;
+        }).catch((errors) => {
+            this.errorMessage = 'No data found';
+        })
 	  }
 	}
   }

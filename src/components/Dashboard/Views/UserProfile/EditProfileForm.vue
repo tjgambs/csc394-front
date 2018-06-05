@@ -73,6 +73,21 @@
           </div>
         </div>
       </div>
+	  
+	  <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="control-label">
+              Starting Quarter
+            </label>
+            <select v-model="user.starting_quarter" class="form-control">
+              <option value="Empty"></option>
+              <option v-for="item in options.starting_quarter" v-bind:value="item">{{item}}</option>
+            </select>
+          </div>
+        </div>
+	  </div>
+	  
       <hr>
       <h4 slot="header" class="card-title">Preferences</h4>
 
@@ -174,13 +189,14 @@
         options: {
           undergraduate_degree: ['Computer Science', 'Information Systems', 'Other'],
           graduate_degree: ['Computer Science', 'Information Systems'],
+		  starting_quarter: ['Autumn 2017-18', 'Winter 2017-18', 'Spring 2017-18', 'Summer 2017-18'],
           credits: ['4', '8', '12', '16']
         }
       }
     },
 	created: function () {
       let token = window.localStorage.getItem('token');
-      this.$http.get(API_URL + '/v1/search/by_class/csc/333/1010', {
+      this.$http.get(API_URL + '/v1/search/by_class/csc/300/1005', {
         headers: {
           Authorization: 'Token ' + token
         }

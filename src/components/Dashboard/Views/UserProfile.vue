@@ -44,6 +44,7 @@
           undergraduate_degree: '',
           graduate_degree: '',
           graduate_degree_concentration: '',
+		  starting_quarter: '',
           number_credit_hours: '',
           elective: '',
           automation: ''
