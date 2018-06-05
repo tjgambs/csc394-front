@@ -81,8 +81,10 @@
               Starting Quarter
             </label>
             <select v-model="user.starting_quarter" class="form-control">
-              <option value="Empty"></option>
-              <option v-for="item in options.starting_quarter" v-bind:value="item">{{item}}</option>
+			  <option value="Autumn">Autumn</option>
+			  <option value="Winter">Winter</option>
+			  <option value="Spring">Spring</option>
+			  <option value="Summer">Summer</option>
             </select>
           </div>
         </div>
@@ -189,7 +191,6 @@
         options: {
           undergraduate_degree: ['Computer Science', 'Information Systems', 'Other'],
           graduate_degree: ['Computer Science', 'Information Systems'],
-		  starting_quarter: ['Autumn 2017-18', 'Winter 2017-18', 'Spring 2017-18', 'Summer 2017-18'],
           credits: ['4', '8', '12', '16']
         }
       }

@@ -9,7 +9,7 @@
 	    <div class="col-md-3">
 		
 		  <select v-model="selected_quarter" class="form-control">
-			<option value="Empty"></option>
+			<option value=""></option>
 			<option v-for="item in options.quarters" v-bind:value="item.stream">{{item.description}}</option>
 		  </select>
 	
@@ -23,7 +23,7 @@
 			  Course Subject
 			</label>
 			<select v-model="course_subject" class="form-control">
-			  <option value="Empty"></option>
+			  <option value=""></option>
 			  <option v-for="item in options.course_subject" v-bind:value="item">{{item}}</option>
 			</select>
 		</div>
@@ -46,29 +46,55 @@
           Search
         </button>
       </div>
-      <div class="clearfix"></div>	 
-	 	  
+      <div class="clearfix"></div>
+
+	  <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="addToWishList">
+        Add to Wish List
+      </button>
+	  
+	  <!--
+	  <table-list>
+	    <data-viewer v-if="viewing_data == True">
+	      <data-viewer v-for="item in data" v-bind:value="item">
+			{{item}}
+			<input type="checkbox" id="checkbox" v-model="checked">
+		  </data-viewer>
+		
+		  
+		  <div class="row">
+		    <div class="col-md-12">
+			  <label class="control-label">
+			    Search Results
+			  </label>
+			  <div class="table">
+			    <l-table class="table-hover table-striped"
+				  :columns="displayTable.columns"
+				  :rows="displayTable.rows">
+			    </l-table>
+			  </div>
+	        </div>
+		  </div>
+		  
+		
+	    </data-viewer>
+		<search v-else></search>
+		
+	  </table-list>
+	  -->
+	  
 	</form>
   </card>
 </template>
 <script>
   import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
-  const tableColumns = ['Add', 'Course', 'Title', 'Instructor', 'Term']
+  const tableColumns = ['Subject', 'Number', 'Title', 'Term']
   const API_URL = process.env.API_URL
   const tableData = [{
-    add: '',
-    course: 'CSC 300',
+    subject: 'CSC',
+	number: '300',
     title: 'Data Structures I',
-    instructor: 'Radha',
-	term: 'Winter 16-17'
-  },
-  {
-    add: '',
-    course: '',
-    title: '',
-    instructor: '',
-	term: ''
+    term: 'Winter 16-17',
   }]
   
   export default {
@@ -83,11 +109,7 @@
 		course_subject: '',
 		course_number: '',
 		myToggle: 'blank',
-        table1: {
-          columns: [...tableColumns],
-          rows: [...tableData]
-        },
-        table2: {
+        displayTable: {
           columns: [...tableColumns],
           rows: [...tableData]
         },
@@ -164,7 +186,17 @@
         }).catch((errors) => {
             this.errorMessage = 'No data found';
         })
-	  }
+	  },
+	  addToWishList (subject, number, title) {
+        this.errorMessage = '';
+        this.$http.get(API_URL + '/v1/user/add_to_wishlist/' + subject + ' ' + number + '/' + title)
+          .then((response) => {
+            this.errorMessage = 'Added to Wish List';
+            var _this = this;
+        }).catch((errors) => {
+            this.errorMessage = 'Already in Wish List';
+        })
+      }
 	}
   }
 </script>
