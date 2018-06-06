@@ -47,7 +47,8 @@
           starting_quarter: '',
           number_credit_hours: '',
           elective: '',
-          automation: ''
+          automation: '',
+          disallow_online: ''
         }
       }
     },
@@ -62,6 +63,7 @@
         this.$http.get(API_URL + '/v1/auth/user')
           .then((response) => {
             this.user = response.data.data;
+            console.log(this.user)
         })
       }
     }

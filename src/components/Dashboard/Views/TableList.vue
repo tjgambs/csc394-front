@@ -59,21 +59,13 @@
 	</div>
 </template>
 <script>
-  import LTable from 'src/components/UIComponents/Table.vue'
   import Card from 'src/components/UIComponents/Cards/Card.vue'
   const tableColumns = ['Subject', 'Number', 'Title', 'Term']
   const API_URL = process.env.API_URL
-  const tableData = [{
-    subject: 'CSC',
-	number: '300',
-    title: 'Data Structures I',
-    term: 'Winter 16-17',
-  }]
-  
+
   export default {
 	props: ['search'],
     components: {
-      LTable,
       Card
     },
     data () {
