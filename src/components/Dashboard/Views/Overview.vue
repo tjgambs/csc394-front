@@ -42,7 +42,7 @@
     },
     data () {
       return {
-        columns: ['Term', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'OnLine'],
+        columns: ['Term', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'OnLine'],
         rows: [
         ]
       }
@@ -52,12 +52,12 @@
       .then((response) => {
         let i, j;
         let results = response.data.data.results;
-        let legend = ['', 'mon', 'tues', 'wed', 'thurs', 'fri', 'online'];
+        let legend = ['', 'mon', 'tues', 'wed', 'thurs', 'fri', 'sat', 'sun', 'online'];
         let finalResults = [];
         let termIterator = this.termIterator(response.data.data.starting_quarter);
         let currentTerm = response.data.data.starting_quarter + ' ' + new Date().getFullYear();
         for (i = 0; i < results.length; i++) {
-          let term = [currentTerm,'','','','','',''];
+          let term = [currentTerm,'','','','','','','',''];
           for (j = 0; j < results[i].length; j++) {
             let course = results[i][j][0].toUpperCase();
             let day = results[i][j][1].toLowerCase();
