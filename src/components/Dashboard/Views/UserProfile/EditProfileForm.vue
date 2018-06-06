@@ -106,11 +106,11 @@
         <div class="col-md-1"></div>
         <div class="col-md-3">
           <label class="control-label">
-            Disallow Online Courses
+            Allow Online Courses
           </label>
           <div>
-            <input type="radio" v-model="user.disallow_online" value="true" /> True </br>
-            <input type="radio" v-model="user.disallow_online" value="false" /> False</br>
+            <input type="radio" v-model="user.disallow_online" value="false" /> True </br>
+            <input type="radio" v-model="user.disallow_online" value="true" /> False</br>
           </div>
         </div>
       </div>
