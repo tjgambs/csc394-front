@@ -67,7 +67,9 @@
             }
             term[index] += course;
           }
-          finalResults.push(term)
+          if (results[i].length > 0) {
+            finalResults.push(term)
+          }
           currentTerm = termIterator.next();
         }
         this.rows = finalResults;
