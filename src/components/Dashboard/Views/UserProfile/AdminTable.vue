@@ -66,7 +66,11 @@
       }
     },
     created: function () {
-      this.$http.get(API_URL + '/v1/admin/get_students')
+      let endpoint = '/v1/admin/get_students';
+      if (this.account_type == 'Admin') {
+        endpoint = '/v1/admin/get_accounts';
+      }
+      this.$http.get(API_URL + endpoint)
       .then((response) => {
         this.columns = ['first_name', 'last_name', 'email']
         this.rows = response.data.data.rows;
