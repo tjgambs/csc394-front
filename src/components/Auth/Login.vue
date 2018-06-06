@@ -150,7 +150,7 @@
             },
             resetPasswordUser (which) {
                 document.getElementById(which + 'Submit').classList.remove('disabled');
-                this.passwordError = "This is not built yet."
+                this.passwordError = "Email has been sent"
             }
         }
     }

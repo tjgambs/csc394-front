@@ -2,17 +2,17 @@
   <div class="wrapper">
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
-      <sidebar-link to="/admin/overview">
-        <i class="nc-icon nc-chart-pie-35"></i>
-        <p>Dashboard</p>
+	  <sidebar-link to="/admin/user">
+        <i class="nc-icon nc-circle-09"></i>
+        <p>User Profile</p>
       </sidebar-link>
       <sidebar-link to="/admin/table-list">
         <i class="nc-icon nc-notes"></i>
         <p>Search Courses</p>
       </sidebar-link>
-      <sidebar-link to="/admin/user">
-        <i class="nc-icon nc-circle-09"></i>
-        <p>User Profile</p>
+      <sidebar-link to="/admin/overview">
+        <i class="nc-icon nc-chart-pie-35"></i>
+        <p>Schedule Planner</p>
       </sidebar-link>
     </side-bar>
     <div class="main-panel">
