@@ -1,10 +1,15 @@
 <template>
- <div>
+	<div class="content">
+    <div class="container-fluid">
+      <div class="row">
+ <div class="col-md-12">
+
   <card>
-	<h2 slot="header" class="card-title">Search Courses</h2>
+  	<template slot="header">
+        <h4 class="card-title">Search Courses</h4>
+    </template>
 	<form>  
 	  
-	  <p></br>Course Subject & Number</p>
 	  <div class="row">
 		<div class="col-md-2">
 			<label class="control-label">
@@ -29,7 +34,6 @@
   
 	  <div class="text-center">
         {{ errorMessage }}
-		{{courseInfo}}
         <button type="submit" class="btn btn-info btn-fill float-right" v-on:click="searchCourses">
           Search
         </button>
@@ -37,23 +41,24 @@
       <div class="clearfix"></div>	  
 	</card>
     <card v-if="results.length > 0">
-	  <h2>
-		Search Results
-	  </h2>
+	  <template slot="header">
+        <h4 class="card-title">Search Results</h4>
+      </template>
 	  
 	  <div v-for="item in results">
         <div class="col-12">
-          <card>
             <h3>{{ item.subject + ' ' + item.catalog_nbr + ' - ' + item.title }}</h3>
-            <p>{{ item.description }}</p>
+            <p>{{ item.description + ' ' + ((item && item.prerequisites) ? item.prerequisites : '') }}</p>
 			<button type="submit" class="btn btn-info btn-fill float-right" v-on:click="addToWishList(item.subject, item.catalog_nbr, item.title)">
 			  Add to Wish List
 			</button>
-          </card>
+			<br /><br />
+			<hr />
         </div>
       </div>
   </card>
- </div>
+</div></div></div>
+</div>
 </template>
 <script>
   import LTable from 'src/components/UIComponents/Table.vue'
@@ -124,8 +129,7 @@
 				"stream": "1024"
 			  }
 			]
-		},
-		courseInfo: ''
+		}
       }
 	},
 	computed: {
