@@ -28,6 +28,8 @@ Vue.http.interceptors.push((request, next) => {
          * This means that probably our token has expired and we need to get a new one.
          */
         if (response.status === 401) {
+            window.localStorage.removeItem('token');
+            window.localStorage.removeItem('studentToken');
             return next({name: 'login'})
         }
     })
