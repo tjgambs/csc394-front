@@ -13,14 +13,10 @@
   </ul>
 </template>
 <script>
-  import DropDown from 'src/components/UIComponents/Dropdown.vue'
   import store from 'src/store.js'
 
   export default {
     store,
-    components: {
-      DropDown
-    },
     computed: {
       isViewingAsStudent () {
         return this.$store.state.isViewingAsStudent;
