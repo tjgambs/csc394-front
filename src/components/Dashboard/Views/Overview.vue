@@ -54,8 +54,10 @@
         let results = response.data.data.results;
         let legend = ['', 'mon', 'tues', 'wed', 'thurs', 'fri', 'online'];
         let finalResults = [];
+        let termIterator = this.termIterator(response.data.data.starting_quarter);
+        let currentTerm = response.data.data.starting_quarter + ' ' + new Date().getFullYear();
         for (i = 0; i < results.length; i++) {
-          let term = ['','','','','','','']
+          let term = [currentTerm,'','','','','',''];
           for (j = 0; j < results[i].length; j++) {
             let course = results[i][j][0].toUpperCase();
             let day = results[i][j][1].toLowerCase();
@@ -66,9 +68,35 @@
             term[index] += course;
           }
           finalResults.push(term)
+          currentTerm = termIterator.next();
         }
         this.rows = finalResults;
       })
+    },
+    methods: {
+      termIterator (initTerm) {
+        var previousTerm = undefined;
+        var term = initTerm;
+        var year = (new Date()).getFullYear();        
+        return {
+           next: function() {
+              previousTerm = term;
+              if (term == 'Winter') {
+                term = 'Spring';
+              } else if (term == 'Spring') {
+                term = 'Summer';
+              } else if (term == 'Summer') {
+                term = 'Autumn';
+              } else if (term == 'Autumn') {
+                if (previousTerm == 'Autumn') {
+                  year++;
+                }
+                term = 'Winter';
+              }
+              return term + ' ' + year;
+           }
+        };
+      }
     }
   }
 </script>
