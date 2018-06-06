@@ -42,7 +42,7 @@
     },
     data () {
       return {
-        columns: ['Term', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        columns: ['Term', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'OnLine'],
         rows: [
         ]
       }
@@ -50,7 +50,24 @@
     created: function () {
       this.$http.get(API_URL + '/v1/build/auto_schedule')
       .then((response) => {
-        this.rows = response.data.data.results;
+        let i, j;
+        let results = response.data.data.results;
+        let legend = ['', 'mon', 'tues', 'wed', 'thurs', 'fri', 'online'];
+        let finalResults = [];
+        for (i = 0; i < results.length; i++) {
+          let term = ['','','','','','','']
+          for (j = 0; j < results[i].length; j++) {
+            let course = results[i][j][0].toUpperCase();
+            let day = results[i][j][1].toLowerCase();
+            let index = legend.indexOf(day);
+            if (term[index].length > 0) {
+              term[index] += ', ';
+            }
+            term[index] += course;
+          }
+          finalResults.push(term)
+        }
+        this.rows = finalResults;
       })
     }
   }
