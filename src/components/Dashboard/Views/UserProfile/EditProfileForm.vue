@@ -74,7 +74,7 @@
         </div>
       </div>
 	  
-	  <div class="row">
+  	  <div class="row">
         <div class="col-md-4">
           <div class="form-group">
             <label class="control-label">
@@ -88,9 +88,9 @@
             </select>
           </div>
         </div>
-	  </div>
+  	  </div>
 	  
-      <hr>
+      <hr />
       <h4 slot="header" class="card-title">Preferences</h4>
 
       <div class="row">
@@ -123,26 +123,33 @@
           </div>
         </div>
       </div>
-<hr>
+
+      <hr />
 	
       <h4 slot="header" class="card-title">Wish List</h4>
 
       <div class="row">
         <div class="col-md-12">
-          <label class="control-label">
-            Classes Currently Interested In
-          </label>
-          
-		  
-		  <card>
-		  <div class="table-responsive">
-			<l-table class="table-hover table-striped"
-				:columns="table1.columns"
-				:rows="table1.rows">
-			</l-table>
-		  </div>
-		  </card>
-		 
+          <table class="table">
+            <thead>
+              <tr>
+                <slot name="columns">
+                  <th v-for="column in wishlist.columns">{{column}}</th>
+                </slot>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in wishlist.rows">
+                <td>{{row.course}}</td>
+                <td>{{row.title}}</td>
+                <td>
+                  <button type="submit" class="btn btn-danger btn-fill" @click.prevent="deleteFromWishlist(row)">
+                  Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -162,17 +169,7 @@
   import Card from 'src/components/UIComponents/Cards/Card.vue'
 
   const API_URL = process.env.API_URL
-  const tableColumns = ['Course', 'Title', 'Remove from Wish List']
-  const tableData = [{
-	course: 'CSC 352',
-	title: 'Database Programming',
-	'remove from wish list': 'Remove Button'
-  },
-  {
-	course: 'CSC 333',
-	title: 'Cryptology',
-	'remove from wish list': 'Remove Button'
-  }]
+
   export default {
     components: {
 	  LTable,
@@ -183,9 +180,9 @@
       return {
 		columns: [],
 		rows: [],
-		table1: {
-			columns: [...tableColumns],
-			rows: [...tableData]
+		wishlist: {
+			columns: ['Course', 'Title', 'Remove from Wish List'],
+			rows: []
 		},
         errorMessage: '',
         options: {
@@ -205,6 +202,11 @@
         this.columns = ['first_name', 'last_name', 'email']
         this.rows = response.data.data.rows;
       })
+
+      this.$http.get(API_URL + '/v1/user/get_wishlist')
+         .then((response) => {
+          this.wishlist.rows = response.data.data.results;
+       })
     },
     computed: {
       concentrations: function() {
@@ -230,7 +232,22 @@
             }, 2000);
         }).catch((errors) => {
             this.errorMessage = 'No changes made';
+            var _this = this;
+            setTimeout(function(){ 
+              _this.errorMessage = '';
+            }, 2000);
         })
+      },
+      deleteFromWishlist (row) {
+        this.$http.delete(API_URL + '/v1/user/delete_from_wishlist/'+ row.course + '/' + row.title)
+         .then((response) => {
+          this.errorMessage = 'Success deleteing ' + row.course;
+          var _this = this;
+            setTimeout(function(){ 
+              _this.errorMessage = '';
+            }, 2000);
+          this.wishlist.rows.splice(this.wishlist.rows.indexOf(row), 1);
+       })
       }
     }
   }
