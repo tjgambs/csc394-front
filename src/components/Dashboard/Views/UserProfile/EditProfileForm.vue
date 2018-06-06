@@ -179,7 +179,7 @@
         options: {
           undergraduate_degree: ['Computer Science', 'Information Systems', 'Other'],
           graduate_degree: ['Computer Science', 'Information Systems'],
-          credits: ['4', '8', '12', '16']
+          credits: ['4', '8', '12']
         }
       }
     },
