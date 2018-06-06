@@ -204,7 +204,7 @@
         if (this.user.graduate_degree == 'Computer Science') {
           return ['Software and Systems Development', 'Theory', 'Data Science', 'Database Systems', 'Artificial Intelligence', 'Software Engineering', 'Game and Real-Time Systems', 'Human-Computer Interaction'];
         } else if (this.user.graduate_degree == 'Information Systems') {
-          return ['Business Analysis/Systems Analysis', 'Business Intelligence', 'Database Administration', 'IT Enterprise Management', 'Standard'];
+          return ['Business Analysis/Systems Analysis', 'Business Intelligence', 'Database Administration', 'IT Enterprise Management'];
         } else {
           return [];
         }

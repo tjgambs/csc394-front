@@ -6,7 +6,7 @@
           <card>
             <template slot="header">
               <h4 class="card-title">Schedule</h4>
-              <p class="card-category">According to your preferences, this is your recommended schedule.</p>
+              <p class="card-category">According to your preferences, this is your recommended schedule. (Go to User Profile to set Preferences)</p>
             </template>
             <div class="table-responsive">
               <table class="table-hover table-striped table">
